@@ -85,7 +85,7 @@ nav button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
 #pbk[data-d=ltr] .sh i{background:linear-gradient(to left,#000,#0004)}
 #rv[data-m=sepia] #ps{background:#d8cbab}#rv[data-m=sepia] .sh{background:#f4ecd8}#rv[data-m=sepia] .sh canvas{mix-blend-mode:multiply}
 #rv[data-m=dark] #ps{background:#0b0b0d}#rv[data-m=dark] .sh{background:#111}#rv[data-m=dark] .sh canvas{filter:invert(.9) hue-rotate(180deg)}
-@media(max-width:600px){.rbar{flex-wrap:wrap;justify-content:center}#pn,#pt2{order:-1}#sl{order:-1;flex:1 1 120px}}
+
 .top .ib{width:38px;height:38px}
 #aw.off{opacity:.4}
 #rv.imm{padding-top:0}#rv.imm .top,#rv.imm .rbar{display:none}
@@ -107,6 +107,16 @@ nav button .i,.btn .i{width:18px;height:18px;vertical-align:-4px;margin-inline-e
 #rv .top{background:var(--card);border-bottom:1px solid var(--bd)}
 #rv .ib{background:var(--bg)}#rv input{background:var(--bg)}
 #rv[data-m=light] #rs,#rv[data-m=light] #ps{background:#cfd2da}
+.rbar{flex-direction:column;align-items:stretch;gap:6px;padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+.rb1{display:flex;align-items:center;gap:8px}
+.rb2{display:flex;justify-content:center;align-items:center;gap:12px}
+.rbar .ib{width:38px;height:38px}
+#pn{width:56px;padding:6px}
+@media(min-width:700px){.rbar{flex-direction:row;align-items:center;gap:20px}.rb1{flex:1}.rb2{order:-1}}
+#rside{position:fixed;top:calc(8px + env(safe-area-inset-top));inset-inline-start:8px;z-index:30;display:flex;flex-direction:column;gap:8px}
+#rzg{display:flex;flex-direction:column;gap:8px}#rside.min #rzg{display:none}
+#rv #rside .ib{position:static;width:38px;height:38px;opacity:.5;background:color-mix(in srgb,var(--card) 60%,transparent);backdrop-filter:blur(6px);transition:opacity .2s}
+#rv #rside .ib:hover,#rv #rside .ib:active{opacity:1}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <linearGradient id="lgb" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="512" y2="512"><stop offset="0" stop-color="#ff6a7f"/><stop offset=".55" stop-color="#e5334a"/><stop offset="1" stop-color="#7a2bd6"/></linearGradient>
@@ -138,6 +148,7 @@ nav button .i,.btn .i{width:18px;height:18px;vertical-align:-4px;margin-inline-e
 <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></symbol>
 <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3.4 3.2 14.6 0 18M12 3c-3.2 3.4-3.2 14.6 0 18"/></symbol>
 <symbol id="i-list" viewBox="0 0 24 24"><path d="M3.5 6.5h13M3.5 12h8M3.5 17.5h7"/><path d="M15.5 13.8v6.4l5.2-3.2z" fill="currentColor"/></symbol>
+<symbol id="i-chu" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
 <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/></symbol>
 </defs></svg>
 <header><h1><svg class="i logo"><use href="#i-logo"/></svg>مساري</h1><button class="ib" id="aw" aria-label="إبقاء الشاشة مضاءة"><svg class="i"><use href="#i-bulb"/></svg></button><button class="ib" id="tm" aria-label="الوضع"></button><button class="ib acc" id="add" aria-label="إضافة"><svg class="i"><use href="#i-plus"/></svg></button><nav><button data-t="v"><svg class="i"><use href="#i-video"/></svg>الفيديو</button><button data-t="b"><svg class="i"><use href="#i-book"/></svg>الكتب</button></nav></header>
@@ -162,7 +173,7 @@ nav button .i,.btn .i{width:18px;height:18px;vertical-align:-4px;margin-inline-e
 <section id="rv" class="off" data-m="light">
  <div class="top"><button class="ib" id="rcl" aria-label="إغلاق"><svg class="i"><use href="#i-close"/></svg></button><b id="rt"></b><button class="ib" id="rdr" aria-label="اتجاه الكتاب">ع</button><button class="ib" id="rvm" aria-label="طريقة العرض"><svg class="i"><use href="#i-bookopen"/></svg></button><button class="ib" id="rth" aria-label="وضع القراءة"><svg class="i"><use href="#i-contrast"/></svg></button><button class="ib" id="rfs" aria-label="ملء الشاشة"><svg class="i"><use href="#i-full"/></svg></button></div>
  <div id="rs"><div id="pages"></div></div><div id="ps" hidden><div id="pbk" data-d="rtl"></div></div>
- <div class="rbar"><button class="ib" id="gpv" hidden></button><button class="ib" id="zo" aria-label="تصغير"><svg class="i"><use href="#i-minus"/></svg></button><button class="ib" id="fit" aria-label="ملاءمة"><svg class="i"><use href="#i-fit"/></svg></button><button class="ib" id="zi" aria-label="تكبير"><svg class="i"><use href="#i-plus"/></svg></button><button class="ib" id="gnx" hidden></button><input type="number" id="pn" min="1"><span class="sub" id="pt2"></span><input type="range" id="sl" min="1" value="1"></div><button class="ib" id="rex" hidden aria-label="إظهار الأزرار"><svg class="i"><use href="#i-unfull"/></svg></button><div id="rpg" hidden></div>
+ <div class="rbar"><div class="rb1"><input type="number" id="pn" min="1"><span class="sub" id="pt2"></span><input type="range" id="sl" min="1" value="1"></div><div class="rb2"><button class="ib" id="gpv" hidden></button><button class="ib" id="zo" aria-label="تصغير"><svg class="i"><use href="#i-minus"/></svg></button><button class="ib" id="fit" aria-label="ملاءمة"><svg class="i"><use href="#i-fit"/></svg></button><button class="ib" id="zi" aria-label="تكبير"><svg class="i"><use href="#i-plus"/></svg></button><button class="ib" id="gnx" hidden></button></div></div><div id="rside" hidden><button class="ib" id="rex" aria-label="إنهاء ملء الشاشة"><svg class="i"><use href="#i-unfull"/></svg></button><div id="rzg"><button class="ib" id="rzi" aria-label="تكبير"><svg class="i"><use href="#i-plus"/></svg></button><button class="ib" id="rzo" aria-label="تصغير"><svg class="i"><use href="#i-minus"/></svg></button><button class="ib" id="rzf" aria-label="ملاءمة"><svg class="i"><use href="#i-fit"/></svg></button></div><button class="ib" id="rzt" aria-label="إخفاء أزرار التكبير"></button></div><div id="rpg" hidden></div>
 </section>
 <dialog id="bd"><h3>إضافة كتاب</h3>
  <label class="sub">اختر ملف PDF من جهازك</label><input type="file" id="bf" accept="application/pdf,.pdf">
@@ -402,7 +413,7 @@ function keepAlive(on){try{if(!ka){const sr=8000,n=sr*2,b=new ArrayBuffer(44+n),
 setInterval(wake,3000);document.addEventListener('visibilitychange',()=>{retry=0;wake()});
 $('#aw').classList.toggle('off',LS('awake')===false);
 $('#aw').onclick=()=>{const v=LS('awake')===false;SV('awake',v);$('#aw').classList.toggle('off',!v);toast(v?'ستبقى الشاشة مضاءة أثناء التشغيل والقراءة':'تم إيقاف إبقاء الشاشة مضاءة');wake()};
-function setImm(on){imm=on;$('#rv').classList.toggle('imm',on);$('#rex').hidden=!on;$('#rpg').hidden=!on;
+function setImm(on){imm=on;$('#rv').classList.toggle('imm',on);$('#rside').hidden=!on;$('#rpg').hidden=!on;
  try{if(on&&!document.fullscreenElement)document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>{});else if(!on&&document.fullscreenElement)document.exitFullscreen().catch(()=>{})}catch(e){}
  setTimeout(()=>dispatchEvent(new Event('resize')),80)}
 $('#rfs').onclick=()=>setImm(!imm);$('#rex').onclick=()=>setImm(false);
@@ -413,5 +424,8 @@ function midTap(){const n=performance.now();if(n-mt<320){clearTimeout(mto);mt=0;
 rs.addEventListener('pointerdown',e=>{if(e.isPrimary)tp={x:e.clientX,y:e.clientY,t:performance.now()}});
 rs.addEventListener('pointerup',e=>{const q=tp;tp=null;if(q&&rb&&view!='page'&&e.pointerType==='touch'&&!pd&&Math.abs(e.clientX-q.x)<8&&Math.abs(e.clientY-q.y)<8&&performance.now()-q.t<350)midTap()});
 function tc(on){$('meta[name=theme-color]').content=on?{light:'#ffffff',sepia:'#efe6cf',dark:'#15151a'}[rmode]:(document.documentElement.dataset.theme=='dark'?'#0e1015':'#f6f7fb')}
+$('#rzi').onclick=()=>setZoom(Z()*1.25);$('#rzo').onclick=()=>setZoom(Z()/1.25);$('#rzf').onclick=()=>setZoom(1);
+function rzm(m){$('#rside').classList.toggle('min',m);$('#rzt').innerHTML=ic(m?'chd':'chu');SV('rzmin',m)}
+$('#rzt').onclick=()=>rzm(!$('#rside').classList.contains('min'));rzm(!!LS('rzmin'));
 render();pp();setTab(tab);
 </script></body></html>
