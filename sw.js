@@ -1,4 +1,4 @@
-const C='masari-v9',F=['./','index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','icon-maskable-192.png','icon-maskable-512.png','apple-touch-icon.png'];
+const C='masari-v12',F=['./','index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','icon-maskable-192.png','icon-maskable-512.png','apple-touch-icon.png'];
 const P='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf',CDN=[P+'.min.js',P+'.worker.min.js'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(async c=>{await c.addAll(F);await Promise.allSettled(CDN.map(u=>c.add(new Request(u,{mode:'cors'}))))}));self.skipWaiting()});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
