@@ -1,170 +1,177 @@
 @echo off
-chcp 65001 >nul
 setlocal EnableExtensions EnableDelayedExpansion
 cd /d "%~dp0"
-
 set "REPO=https://github.com/etqangroup2019/masari.git"
 set "BRANCH=main"
+set "FIRST=0"
 
 echo.
 echo ========================================
-echo          MASARI - GITHUB SYNC
+echo  MASARI - GITHUB SYNC
 echo ========================================
 echo.
 
-REM التحقق من تثبيت Git
+rem ---- Git must be installed
 where git >nul 2>&1
 if errorlevel 1 (
-    echo Git is not installed.
-    pause
-    exit /b 1
+  echo Git is not installed. Download it from https://git-scm.com/download/win
+  goto :fail
 )
 
-REM التحقق من المستودع المحلي
-if not exist ".git" goto :bootstrap
+rem ---- keep this script out of the repository
+if not exist ".gitignore" echo push-to-github.bat> .gitignore
 
+rem ---- make sure a local repository exists
+if not exist ".git" (
+  echo Creating a local repository...
+  git init >nul
+  if errorlevel 1 goto :fail
+)
 git rev-parse --is-inside-work-tree >nul 2>&1
-if errorlevel 1 goto :fail
+if errorlevel 1 (
+  echo The .git folder is damaged. It will be backed up and rebuilt from GitHub.
+  goto :adopt
+)
 
-REM ضبط المستودع البعيد
+rem ---- a repository with no commits yet: name its branch
+git rev-parse --verify HEAD >nul 2>&1
+if errorlevel 1 git branch -M %BRANCH% >nul 2>&1
+
+rem ---- remote
 git remote get-url origin >nul 2>&1
 if errorlevel 1 (
-    git remote add origin "%REPO%"
+  git remote add origin "%REPO%"
 ) else (
-    git remote set-url origin "%REPO%"
+  git remote set-url origin "%REPO%"
 )
 if errorlevel 1 goto :fail
 
-REM إعداد بيانات المستخدم عند الحاجة
-git config user.email >nul 2>&1
-if errorlevel 1 (
-    set /p "GN=Your name: "
-    set /p "GE=Your email: "
-    git config user.name "!GN!"
-    git config user.email "!GE!"
-)
-
-REM جلب تحديثات GitHub
 echo Fetching GitHub updates...
 git fetch origin
-if errorlevel 1 goto :fail
-
-REM التحقق من ارتباط التاريخ المحلي بالبعيد
-git merge-base HEAD origin/%BRANCH% >nul 2>&1
-
 if errorlevel 1 (
-    echo.
-    echo Unrelated histories detected.
-    echo Creating backup of old Git metadata...
-
-    set "BACKUP=.git-backup-%RANDOM%-%RANDOM%"
-
-    REM نسخ مجلد Git احتياطياً
-    robocopy ".git" "!BACKUP!" /E /COPY:DAT /R:2 /W:1 /NFL /NDL /NJH /NJS /NP >nul
-
-    if errorlevel 8 (
-        echo Backup failed. Original Git data preserved.
-        goto :fail
-    )
-
-    echo Backup created: !BACKUP!
-
-    REM حذف مجلد Git القديم بعد نجاح النسخ
-    rmdir /s /q ".git"
-
-    if exist ".git" (
-        echo Cannot remove old Git metadata.
-        goto :fail
-    )
-
-    goto :bootstrap
+  echo Could not reach GitHub. Check the internet connection and the login.
+  goto :fail
 )
 
-goto :continue
+rem ---- empty remote: this is the first upload
+git ls-remote --exit-code --heads origin %BRANCH% >nul 2>&1
+if errorlevel 1 (
+  echo The branch "%BRANCH%" does not exist on GitHub yet. This will be the first upload.
+  goto :commit
+)
 
-
-:bootstrap
+rem ---- is the local history connected to the GitHub history?
+git merge-base HEAD origin/%BRANCH% >nul 2>&1
+if not errorlevel 1 goto :commit
 echo.
-echo Connecting to GitHub repository...
+echo The local Git history is not connected to the GitHub history.
+echo Your project files are kept. Only the Git metadata is replaced.
 
-set "TEMP_REPO=%TEMP%\masari-bootstrap-%RANDOM%-%RANDOM%"
-
-git clone --branch "%BRANCH%" "%REPO%" "%TEMP_REPO%"
-if errorlevel 1 goto :fail
-
-REM استعادة بيانات Git دون المساس بملفات المشروع
-robocopy "%TEMP_REPO%\.git" "%CD%\.git" /E /COPY:DAT /R:2 /W:1 /NFL /NDL /NJH /NJS /NP >nul
-
-if errorlevel 8 (
-    rmdir /s /q "%TEMP_REPO%"
+:adopt
+set "FIRST=1"
+set "BACKUP=%USERPROFILE%\masari-git-backups\git-%RANDOM%-%RANDOM%"
+if exist ".git" (
+  echo Backing up the old Git metadata to: !BACKUP!
+  mkdir "!BACKUP!" >nul 2>&1
+  robocopy ".git" "!BACKUP!" /E /COPY:DAT /R:2 /W:1 /NFL /NDL /NJH /NJS /NP >nul
+  if errorlevel 8 (
+    echo Backup failed. Nothing was changed.
     goto :fail
+  )
+  rmdir /s /q ".git"
+  if exist ".git" (
+    echo Could not remove the old .git folder. Close programs that use it and try again.
+    goto :fail
+  )
 )
 
-rmdir /s /q "%TEMP_REPO%"
+echo.
+echo Connecting to the GitHub repository...
+set "TMPREPO=%TEMP%\masari-bootstrap-%RANDOM%-%RANDOM%"
+git clone --no-checkout --branch "%BRANCH%" "%REPO%" "!TMPREPO!"
+if errorlevel 1 goto :fail
+robocopy "!TMPREPO!\.git" "%CD%\.git" /E /COPY:DAT /R:2 /W:1 /NFL /NDL /NJH /NJS /NP >nul
+set "RC=!ERRORLEVEL!"
+rmdir /s /q "!TMPREPO!" >nul 2>&1
+if !RC! GEQ 8 (
+  echo Could not restore the Git history.
+  goto :fail
+)
+git reset -q
+if errorlevel 1 goto :fail
+echo Git history restored. Your local files were not touched.
 
-echo Git history restored successfully.
-
-
-:continue
+:commit
 echo.
 echo Preparing changes...
-
-git add -A
+if "%FIRST%"=="1" (
+  git add --ignore-removal .
+  if errorlevel 1 goto :fail
+  rem files that exist only on GitHub are restored into this folder, never deleted from GitHub
+  git checkout -- .
+) else (
+  git add -A
+)
 if errorlevel 1 goto :fail
 
-REM التحقق من وجود تعديلات
-git diff --cached --quiet
-
+rem ---- commit identity
+git config user.email >nul 2>&1
 if errorlevel 1 (
-    set "MSG="
-    set /p "MSG=Commit message (Enter for default): "
-
-    if not defined MSG set "MSG=Update Masari"
-
-    git commit -m "!MSG!"
-    if errorlevel 1 goto :fail
-) else (
-    echo No new changes to commit.
+  echo First time setup: Git needs your name and email for commits.
+  set /p "GN=Your name: "
+  set /p "GE=Your email: "
+  git config user.name "!GN!"
+  git config user.email "!GE!"
 )
 
-REM مزامنة التعديلات البعيدة
+git diff --cached --quiet
+if errorlevel 1 (
+  set "MSG="
+  set /p "MSG=Commit message (Enter for default): "
+  if not defined MSG set "MSG=Update Masari"
+  set "MSG=!MSG:"=!"
+  git commit -m "!MSG!"
+  if errorlevel 1 goto :fail
+) else (
+  echo No new changes to commit.
+)
+
+rem ---- bring in remote changes, then push
 echo.
 echo Synchronizing with GitHub...
-
-git pull --rebase origin %BRANCH%
-if errorlevel 1 (
+git ls-remote --exit-code --heads origin %BRANCH% >nul 2>&1
+if not errorlevel 1 (
+  git pull --rebase origin %BRANCH%
+  if errorlevel 1 (
     echo.
-    echo Rebase conflict detected.
-    echo Resolve conflicts before pushing.
+    echo Rebase conflict detected. The rebase was cancelled so nothing is lost.
+    git rebase --abort >nul 2>&1
+    echo Resolve the conflict in the files, then run this file again.
     goto :fail
+  )
 )
 
-REM رفع المشروع
 echo.
 echo Pushing to GitHub...
-
-git push -u origin %BRANCH%
+git push -u origin HEAD:%BRANCH%
 if errorlevel 1 goto :fail
 
-
-:ok
 echo.
 echo ========================================
-echo       UPLOAD COMPLETED SUCCESSFULLY
+echo  UPLOAD COMPLETED SUCCESSFULLY
 echo ========================================
 echo.
 pause
 exit /b 0
 
-
 :fail
 echo.
 echo ========================================
-echo             UPLOAD FAILED
+echo  UPLOAD FAILED
 echo ========================================
 echo.
-echo Local project files have not been deleted.
-echo Check the error messages above.
+echo Your local project files have not been deleted.
+echo Read the messages above to see what went wrong.
 echo.
 pause
 exit /b 1

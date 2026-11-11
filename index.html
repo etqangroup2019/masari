@@ -179,6 +179,7 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
 <symbol id="i-autooff" viewBox="0 0 24 24"><path d="m6 7 5 5-5 5M13 7l5 5-5 5"/><path d="M4 4l16 16"/></symbol>
 <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+<symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></symbol>
 <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/></symbol>
 </defs></svg>
 <header><h1><svg class="i logo"><use href="#i-logo"/></svg>مساري</h1><button class="ib" id="aw" aria-label="إبقاء الشاشة مضاءة"><svg class="i"><use href="#i-bulb"/></svg></button><button class="ib" id="tm" aria-label="الوضع"></button><button class="ib acc" id="add" aria-label="إضافة"><svg class="i"><use href="#i-plus"/></svg></button><nav><button data-t="v"><svg class="i"><use href="#i-video"/></svg>الفيديو</button><button data-t="b"><svg class="i"><use href="#i-book"/></svg>الكتب</button></nav></header>
@@ -187,7 +188,7 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
 <div class="nr" id="nr" hidden></div><main id="grid"></main></div><div id="tb" hidden><div id="bempty" style="text-align:center;color:var(--mut);padding:70px 24px;line-height:2">لا توجد كتب بعد.<br>اضغط ＋ لإضافة ملف PDF أو رابط كتاب.</div><div class="nr" id="bnr" hidden></div><main id="bgrid"></main></div>
 <div id="mini"><img alt=""><div><b class="sub" id="mt" style="display:block"></b><span class="sub" id="ms"></span></div><button class="ib pp"></button></div>
 <section id="pv" class="off">
- <div class="top"><button class="ib" id="cl" aria-label="تصغير"><svg class="i"><use href="#i-chd"/></svg></button><b id="pt"></b><button class="ib" id="am" aria-label="وضع الصوت (يعمل في الخلفية)"><svg class="i"><use href="#i-phones"/></svg></button></div>
+ <div class="top"><button class="ib" id="cl" aria-label="تصغير"><svg class="i"><use href="#i-chd"/></svg></button><b id="pt"></b><button class="ib" id="yo" aria-label="فتح في تطبيق يوتيوب"><svg class="i"><use href="#i-ext"/></svg></button><button class="ib" id="am" aria-label="وضع الصوت (يعمل في الخلفية)"><svg class="i"><use href="#i-phones"/></svg></button></div>
  <div class="pb">
   <div class="left"><div id="box"><img id="cov" alt=""><div id="yt"></div></div>
    <div class="np"><b id="nt">—</b><small id="ns"></small></div><div id="skb" hidden><span class="sub" id="tc">0:00</span><input type="range" id="sk" min="0" max="100" value="0"><span class="sub" id="td">0:00</span><button class="ib" id="ag" aria-label="إعدادات الصوت"><svg class="i"><use href="#i-sliders"/></svg></button></div>
@@ -219,10 +220,11 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
  <div class="row" style="margin-top:10px"><button class="btn" id="bok">إضافة</button><button class="btn sec" id="bno">إلغاء</button></div>
 </dialog>
 <dialog id="adlg"><h3>إعدادات وضع الصوت</h3>
- <div class="sub" style="white-space:normal;line-height:1.8">وضع الصوت يشغّل صوت الفيديو عبر عنصر صوت عادي، فيستمر مع إغلاق الشاشة وفي الخلفية ويظهر في إشعار الهاتف. يعتمد على خوادم Piped خارجية غير رسمية، وقد يخالف شروط استخدام يوتيوب، وقد يتوقف في أي وقت. استخدمه على مسؤوليتك. الخوادم العامة تتعطل أحيانًا، فاختبرها وبدّلها بخادم آخر (قائمة Instances في مشروع Piped على GitHub) أو بخادمك الخاص. اكتب كل خادم في سطر.</div>
- <textarea id="abs" rows="4" dir="ltr" placeholder="https://pipedapi.example.com"></textarea>
+ <div class="sub" style="white-space:normal;line-height:1.8">وضع الصوت يشغّل صوت الفيديو عبر عنصر صوت عادي فيستمر مع إغلاق الشاشة وفي الخلفية على الهاتف. يبحث التطبيق تلقائيًا عن خوادم عامة تعمل (Invidious / Piped) ويجرّبها معًا ويتذكّر آخر خادم نجح. هذه خوادم خارجية غير رسمية قد تتعطل أو تُحجب في أي وقت، وقد يخالف استخدامها شروط يوتيوب، فاستخدمها على مسؤوليتك. إن نشرتَ وسيط Cloudflare (worker.js) وأدخلته في نافذة إضافة كتاب فيُستخدم تلقائيًا لتجاوز قيود CORS.</div>
+ <label class="sub">خوادم إضافية خاصة بك (اختياري، سطر لكل خادم)</label>
+ <textarea id="abs" rows="3" dir="ltr" placeholder="https://…"></textarea>
  <div class="sub" id="amsg" style="white-space:normal;line-height:1.8"></div>
- <div class="row" style="margin-top:10px"><button class="btn" id="aok">حفظ</button><button class="btn sec" id="atest">اختبار</button><button class="btn sec" id="ano">إغلاق</button></div></dialog>
+ <div class="row" style="margin-top:10px"><button class="btn" id="aok">حفظ</button><button class="btn sec" id="atest">اختبار</button><button class="btn sec" id="aloc">+ محلي</button><button class="btn sec" id="ano">إغلاق</button></div></dialog>
 <dialog id="rdlg"><h3>تعديل الاسم</h3><input id="rnm" placeholder="الاسم الجديد"><div class="row" style="margin-top:10px"><button class="btn" id="rok">حفظ</button><button class="btn sec" id="rno">إلغاء</button></div></dialog>
 <div id="toast"></div>
 <script>
@@ -468,47 +470,85 @@ $('#rzi').onclick=()=>setZoom(Z()*1.25);$('#rzo').onclick=()=>setZoom(Z()/1.25);
 function rzm(m){$('#rside').classList.toggle('min',m);$('#rzt').innerHTML=ic(m?'chd':'chu');SV('rzmin',m)}
 $('#rzt').onclick=()=>rzm(!$('#rside').classList.contains('min'));rzm(!!LS('rzmin'));
 // ---- audio mode: plays through a real <audio> element so it keeps going with the screen off
-let ytp=null,ytReady=false,amode=!!LS('amode'),okB=null,sdrag=0;
-const au=new Audio();au.preload='auto';
-const DEF_BASES=['https://pipedapi.kavin.rocks','https://pipedapi.adminforge.de'];
-const bases=()=>{const l=(LS('abases')||DEF_BASES).filter(Boolean);return okB?[okB,...l.filter(x=>x!==okB)]:l};
+let ytp=null,ytReady=false,amAuto=LS('amode')===null&&matchMedia('(pointer:coarse)').matches,amode=amAuto||!!LS('amode'),okB=null,sdrag=0,skips=0;
+const au=new Audio();au.preload='auto';au.setAttribute('playsinline','');
 const tmo=ms=>typeof AbortSignal.timeout=='function'?{signal:AbortSignal.timeout(ms)}:{};
-async function pj(path){let le=null;for(const b of bases()){try{const r=await fetch(b.replace(/\/+$/,'')+path,tmo(15000));
-  if(!r.ok){let m='';try{m=(await r.json()).message||''}catch(e){}le=Object.assign(new Error(m||'HTTP '+r.status),{kind:'api'});continue}
-  const j=await r.json();okB=b;return j}catch(e){le=Object.assign(e,{kind:'net'})}}
- throw le||Object.assign(new Error('no server'),{kind:'net'})}
+const LOCAL='http://localhost:8787',isLoc=b=>/^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/i.test(b);
+const bases=()=>(LS('abases')||[]).filter(Boolean);
+const SEED=[{u:'https://yewtu.be',t:'i'},{u:'https://inv.nadeko.net',t:'i'},{u:'https://invidious.nerdvpn.de',t:'i'},{u:'https://invidious.privacyredirect.com',t:'i'}];
+const cut=u=>String(u).replace(/\/+$/,'');
+if(!Promise.any)Promise.any=ps=>new Promise((res,rej)=>{let n=ps.length;const errs=[];if(!n)rej(Object.assign(new Error('none'),{errors:errs}));ps.forEach(p=>Promise.resolve(p).then(res,e=>{errs.push(e);if(--n===0)rej(Object.assign(new Error('all failed'),{errors:errs}))}))});
+// ---- network helpers (a Cloudflare relay set in the books dialog is used automatically if a server blocks CORS)
+async function jget(u,ms){try{return await fetch(u,tmo(ms))}catch(e){const px=LS('proxy')||'';if(!px)throw Object.assign(e,{kind:'net'});
+  const pu=px.includes('{url}')?px.replace('{url}',encodeURIComponent(u)):px+(px.endsWith('=')?'':px.includes('?')?'&url=':'?url=')+encodeURIComponent(u);
+  try{return await fetch(pu,tmo(ms))}catch(e2){throw Object.assign(e2,{kind:'net'})}}}
+async function jj(u,ms){const r=await jget(u,ms);let j=null;try{j=await r.json()}catch(e){}
+  if(!r.ok)throw Object.assign(new Error((j&&(j.message||j.error))||'HTTP '+r.status),{kind:'api'});if(j===null)throw Object.assign(new Error('bad response'),{kind:'api'});return j}
+// ---- finding servers that work right now
+function ordered(list){const seen=new Set(),out=[],ok=LS('aok'),add=x=>{const k=cut(x.u);if(!seen.has(k)){seen.add(k);out.push({u:k,t:x.t})}};
+  if(ok&&ok.u)add(ok);bases().forEach(u=>add({u,t:'x'}));list.forEach(add);return out}
+const remember=x=>SV('aok',{u:x.u,t:x.t});
+async function instances(force){const c=LS('ainst');if(!force&&c&&c.l&&c.l.length&&Date.now()-c.t<6*3600e3)return ordered(c.l);const out=[];
+  try{const j=await jj('https://api.invidious.io/instances.json?sort_by=health',9000);for(const e of j){const o=e&&e[1];if(o&&o.api===true&&o.cors===true&&o.type==='https'&&o.uri)out.push({u:o.uri,t:'i'})}}catch(e){}
+  try{const j=await jj('https://piped-instances.kavin.rocks/',9000);for(const x of j)if(x&&x.api_url)out.push({u:x.api_url,t:'p'})}catch(e){}
+  const l=out.length?out:SEED;SV('ainst',{t:Date.now(),l:l.slice(0,40)});return ordered(l)}
+const agg=e=>e&&e.errors?(e.errors.every(z=>z&&z.kind==='net')?Object.assign(new Error('no server'),{kind:'net'}):(e.errors.find(z=>z&&z.kind==='api')||e.errors[0])):e;
+async function race(list,fn){let last=null;for(let i=0;i<list.length&&i<12;i+=4){try{return await Promise.any(list.slice(i,i+4).map(fn))}catch(e){const k=agg(e);if(!last||k.kind==='api')last=k}}
+  throw last||Object.assign(new Error('no server'),{kind:'net'})}
+// ---- stream URL of one video (Piped or Invidious API)
+function pickAudio(list){const as=list.filter(x=>x&&x.url),m4=as.filter(x=>/mp4|m4a/i.test((x.mimeType||'')+(x.type||'')+(x.format||''))),pool=m4.length?m4:as;
+  pool.sort((a,b)=>Math.abs((+a.bitrate||0)-128000)-Math.abs((+b.bitrate||0)-128000));return pool[0]}
+const absu=(b,u)=>u.startsWith('/')?cut(b)+u:u;
+async function viaP(x,id){const j=await jj(cut(x.u)+'/streams/'+id,10000),a=pickAudio((j.audioStreams||[]).filter(z=>!z.videoOnly));if(!a)throw Object.assign(new Error('no audio'),{kind:'api'});return{url:absu(x.u,a.url),title:j.title||'',base:x}}
+async function viaI(x,id){const j=await jj(cut(x.u)+'/api/v1/videos/'+id+'?local=true&fields=title,lengthSeconds,adaptiveFormats',10000),a=pickAudio((j.adaptiveFormats||[]).filter(z=>/^audio\//.test(z.type||'')));if(!a)throw Object.assign(new Error('no audio'),{kind:'api'});return{url:absu(x.u,a.url),title:j.title||'',base:x}}
+async function tryInst(x,id){if(x.t==='p')return viaP(x,id);if(x.t==='i')return viaI(x,id);try{return await viaP(x,id)}catch(e){try{return await viaI(x,id)}catch(e2){throw e2.kind==='net'?e:e2}}}
+const cache={};
+async function stream(id,excl){const c=cache[id];if(!excl&&c&&Date.now()-c.t<3e6)return c;const tm=setTimeout(()=>toast('جارٍ البحث عن خادم صوت يعمل…'),3500);
+  try{const list=(await instances()).filter(x=>!(excl||[]).includes(x.u)),r=await race(list,x=>tryInst(x,id));remember(r.base);return cache[id]={...r,t:Date.now()}}finally{clearTimeout(tm)}}
+// ---- playlists
 const plc={};
-async function fetchList(id){if(plc[id])return plc[id];const out=[],add=a=>(a||[]).forEach(x=>{const m=(x.url||'').match(/v=([\w-]{11})/);if(m&&(!x.type||x.type==='stream')){out.push({id:m[1],title:x.title||''});if(x.title)titles[m[1]]=x.title}});
- const j=await pj('/playlists/'+id);add(j.relatedStreams);let np=j.nextpage,n=0;
- while(np&&n++<40){const k=await pj('/nextpage/playlists/'+id+'?nextpage='+encodeURIComponent(np));add(k.relatedStreams);np=k.nextpage}
- SV('titles',titles);return plc[id]=out}
-const AUD=(()=>{let L=[],I=0,single=false,S=-1,rid=0,t0=0,vd={video_id:'',title:''};const cache={};
+async function listP(x,id){const out=[],add=a=>(a||[]).forEach(z=>{const m=(z.url||'').match(/v=([\w-]{11})/);if(m&&(!z.type||z.type==='stream'))out.push({id:m[1],title:z.title||''})});
+  const j=await jj(cut(x.u)+'/playlists/'+id,12000);add(j.relatedStreams);let np=j.nextpage,n=0;
+  while(np&&n++<40){const k=await jj(cut(x.u)+'/nextpage/playlists/'+id+'?nextpage='+encodeURIComponent(np),12000);add(k.relatedStreams);np=k.nextpage}
+  if(!out.length)throw Object.assign(new Error('empty'),{kind:'api'});return{items:out,base:x}}
+async function listI(x,id){const out=[];let tot=0;for(let pg=1;pg<=40;pg++){const j=await jj(cut(x.u)+'/api/v1/playlists/'+id+'?page='+pg+'&fields=videoCount,videos(title,videoId)',12000),v=j.videos||[];
+    if(!v.length)break;v.forEach(z=>z.videoId&&out.push({id:z.videoId,title:z.title||''}));tot=j.videoCount||tot;if(tot&&out.length>=tot)break}
+  if(!out.length)throw Object.assign(new Error('empty'),{kind:'api'});return{items:out,base:x}}
+const listInst=(x,id)=>x.t==='p'?listP(x,id):x.t==='i'?listI(x,id):listP(x,id).catch(()=>listI(x,id));
+async function fetchList(id){if(plc[id])return plc[id];const r=await race(await instances(),x=>listInst(x,id));remember(r.base);
+  r.items.forEach(z=>{if(z.title)titles[z.id]=z.title});SV('titles',titles);return plc[id]=r.items}
+// ---- the <audio> engine, same interface the app already uses for the YouTube player
+const AUD=(()=>{let L=[],I=0,single=false,S=-1,rid=0,t0=0,cb='',exc=[],vd={video_id:'',title:''};
  const emit=n=>{S=n;try{st({data:n})}catch(e){}};
- async function stream(id){const c=cache[id];if(c&&Date.now()-c.t<3e6)return c;const j=await pj('/streams/'+id),as=(j.audioStreams||[]).filter(x=>x.url&&!x.videoOnly);
-  if(!as.length)throw Object.assign(new Error('no audio'),{kind:'api'});const m4=as.filter(x=>/mp4|m4a/i.test((x.mimeType||'')+(x.format||''))),pool=m4.length?m4:as;
-  pool.sort((a,b)=>Math.abs((a.bitrate||0)-128000)-Math.abs((b.bitrate||0)-128000));return cache[id]={url:pool[0].url,title:j.title||'',t:Date.now()}}
- function aerr(e,listLevel){emit(2);if(!listLevel&&e.kind==='api'&&!single&&L[I+1]){toast('تعذر تشغيل هذا المقطع، تم تخطيه');load(I+1,0)}
-  else toast(e.kind==='net'?'تعذر الاتصال بخادم الصوت. غيّر الخادم من زر الإعدادات أو أعد المحاولة':'تعذر تشغيل هذا الفيديو في وضع الصوت')}
- async function load(i,t){const my=++rid;I=i;const id=L[i].id;emit(3);let s;
-  try{s=await stream(id)}catch(e){if(my===rid)aerr(e);return}
-  if(my!==rid)return;vd={video_id:id,title:L[i].title||s.title||titles[id]||''};t0=t||0;au.src=s.url;au.playbackRate=rates[ri]||1;
+ function aerr(e,listLevel){emit(2);
+  if(!listLevel&&e.kind==='api'&&!single&&L[I+1]&&skips++<3){toast('تعذر تشغيل هذا المقطع، تم تخطيه');load(I+1,0)}
+  else if(amAuto){amAuto=false;toast('تعذر الوصول إلى خوادم الصوت. تم التحويل إلى مشغّل يوتيوب (لا يعمل مع إغلاق الشاشة).');setAmode(false)}
+  else toast(e.kind==='net'?'تعذر الاتصال بخوادم الصوت. تحقق من الإنترنت أو أضف خادمًا من زر الإعدادات':(skips>3?'تكرر فشل التشغيل. جرّب لاحقًا أو بدّل إلى مشغّل يوتيوب':'تعذر تشغيل هذا الفيديو في وضع الصوت'))}
+ async function load(i,t){const my=++rid;I=i;exc=[];const id=L[i].id;emit(3);
+  if(amAuto&&!LS('amnote2')){SV('amnote2',1);toast('وضع الصوت مفعّل تلقائيًا ليعمل مع إغلاق الشاشة. زر السماعات للتبديل إلى مشغّل يوتيوب.')}
+  let s;try{s=await stream(id)}catch(e){if(my===rid)aerr(e);return}
+  if(my!==rid)return;cb=s.base.u;vd={video_id:id,title:L[i].title||s.title||titles[id]||''};t0=t||0;au.src=s.url;au.playbackRate=rates[ri]||1;
   try{await au.play()}catch(e){if(my===rid)emit(2)}
   if(L[i+1])stream(L[i+1].id).catch(()=>{})}
- au.addEventListener('playing',()=>emit(1));
+ async function retry(){const my=++rid,keep=au.currentTime||0;exc.push(cb);emit(3);let s;
+  try{s=await stream(L[I].id,exc)}catch(e){if(my===rid)aerr(e);return}
+  if(my!==rid)return;cb=s.base.u;t0=keep;au.src=s.url;au.playbackRate=rates[ri]||1;try{await au.play()}catch(e){if(my===rid)emit(2)}}
+ au.addEventListener('playing',()=>{skips=0;emit(1)});
  au.addEventListener('pause',()=>{if(!au.ended)emit(2)});
  au.addEventListener('waiting',()=>{if(!au.paused&&S!==3)emit(3)});
  au.addEventListener('ended',()=>{if(!single&&I<L.length-1){if(!an){haltAfter();emit(2)}else load(I+1,0)}else emit(0)});
  au.addEventListener('loadedmetadata',()=>{if(t0){try{au.currentTime=t0}catch(e){}t0=0}});
- au.addEventListener('error',()=>{if(au.getAttribute('src'))aerr(Object.assign(new Error('media'),{kind:'api'}))});
+ au.addEventListener('error',()=>{if(!au.getAttribute('src'))return;const c=au.error&&au.error.code;if(cb&&exc.length<3){retry();return}aerr(Object.assign(new Error('media'),{kind:c===2?'net':'api'}))});
  return{
-  async loadPlaylist(o){single=false;const my=++rid;emit(3);let l;
-   try{l=await fetchList(o.list)}catch(e){if(cur&&cur.vids&&cur.vids.length)l=cur.vids.map(id=>({id,title:titles[id]||''}));else{if(my===rid)aerr(e,true);return}}
+  async loadPlaylist(o){skips=0;single=false;const my=++rid;emit(3);let l;
+   const kn=cur&&cur.vids&&cur.vids.length&&cur.vids.length<190?cur.vids.map(id=>({id,title:titles[id]||''})):null;
+   if(kn)l=kn;else{try{l=await fetchList(o.list)}catch(e){if(cur&&cur.vids&&cur.vids.length)l=cur.vids.map(id=>({id,title:titles[id]||''}));else{if(my===rid)aerr(e,true);return}}}
    if(my!==rid)return;if(!l.length){toast('القائمة فارغة أو خاصة');emit(2);return}L=l;await load(Math.min(Math.max(o.index||0,0),L.length-1),o.startSeconds||0)},
   async loadVideoById(o){single=true;L=[{id:o.videoId,title:titles[o.videoId]||''}];await load(0,o.startSeconds||0)},
   playVideo(){if(au.getAttribute('src'))au.play().catch(()=>{})},pauseVideo(){au.pause()},
   stopVideo(){rid++;au.pause();au.removeAttribute('src');au.load();S=-1},
-  nextVideo(){if(I<L.length-1)load(I+1,0)},previousVideo(){if(au.currentTime>3||I<=0)au.currentTime=0;else load(I-1,0)},
-  playVideoAt(i){if(L[i])load(i,0)},seekTo(t){au.currentTime=Math.max(0,t)},
+  nextVideo(){skips=0;if(I<L.length-1)load(I+1,0)},previousVideo(){if(au.currentTime>3||I<=0)au.currentTime=0;else load(I-1,0)},
+  playVideoAt(i){skips=0;if(L[i])load(i,0)},seekTo(t){au.currentTime=Math.max(0,t)},
   getCurrentTime(){return au.currentTime||0},getDuration(){return isFinite(au.duration)?au.duration:0},
   getPlayerState(){return S},getPlaylist(){return single?null:L.map(x=>x.id)},getPlaylistIndex(){return I},getVideoData(){return vd},setPlaybackRate(r){au.playbackRate=r}}})();
 function amUI(){$('#am').classList.toggle('on',amode);$('#box').classList.toggle('au',amode);$('#skb').hidden=!amode}
@@ -516,14 +556,15 @@ function setAmode(on){if(on===amode)return;if(!on&&!ytp){toast('مشغّل يو�
  if(cur){snap();try{player.pauseVideo()}catch(e){}}
  amode=on;SV('amode',on);player=on?AUD:ytp;ready=on?true:ytReady;amUI();
  if(cur){loading=true;if(ready)play(cur);else pending=cur}ui()}
-function openA(){$('#abs').value=bases().join('\n');$('#amsg').textContent='';$('#adlg').showModal()}
-$('#am').onclick=()=>{setAmode(!amode);if(amode&&!LS('amnote')){SV('amnote',1);openA()}};
+function openA(){$('#abs').value=bases().join('\n');$('#adlg').showModal();probeLocal()}
+$('#am').onclick=()=>{amAuto=false;setAmode(!amode);if(amode&&!LS('amnote')){SV('amnote',1);openA()}};
 $('#ag').onclick=openA;$('#ano').onclick=()=>$('#adlg').close();
 const urls=()=>$('#abs').value.split(/\s+/).filter(x=>/^https?:\/\//i.test(x));
 $('#aok').onclick=()=>{const l=urls();SV('abases',l.length?l:null);okB=null;$('#adlg').close();toast('تم الحفظ')};
-$('#atest').onclick=async()=>{const m=$('#amsg'),l=urls(),out=[];m.textContent='جارٍ الاختبار…';
- for(const b of l){try{const r=await fetch(b.replace(/\/+$/,'')+'/streams/jNQXAC9IVRw',tmo(12000)),j=r.ok?await r.json():null;out.push((j&&j.audioStreams&&j.audioStreams.length?'يعمل: ':'لا يعمل: ')+b)}catch(e){out.push('لا يعمل: '+b)}}
- m.innerHTML=out.map(esc).join('<br>')||'أضف خادمًا أولًا'};
+$('#atest').onclick=async()=>{const m=$('#amsg'),out=[];m.textContent='جارٍ البحث عن الخوادم المتاحة…';
+ let list;try{list=await instances(true)}catch(e){list=[]}list=list.slice(0,8);m.textContent='جارٍ اختبار '+list.length+' خادم…';
+ await Promise.all(list.map(async x=>{try{await tryInst(x,'jNQXAC9IVRw');out.push('يعمل: '+x.u)}catch(e){out.push((e.kind==='net'?'تعذر الاتصال أو CORS: ':'خطأ: ')+x.u+(e.kind!=='net'&&e.message?' — '+String(e.message).slice(0,60):''))}}));
+ out.sort();m.innerHTML=out.map(esc).join('<br>')+'<br>'+(out.some(x=>x.startsWith('يعمل'))?'':'لا يوجد خادم يعمل الآن. جرّب لاحقًا أو أضف خادمًا خاصًا.')};
 $('#sk').oninput=()=>{sdrag=1;$('#tc').textContent=fmt(+$('#sk').value)};$('#sk').onchange=()=>{player.seekTo(+$('#sk').value,true);sdrag=0};
 setInterval(()=>{if(!amode||!cur)return;const d=AUD.getDuration(),t=AUD.getCurrentTime(),k=$('#sk');if(d)k.max=Math.floor(d);if(!sdrag){k.value=Math.floor(t);$('#tc').textContent=fmt(t)}$('#td').textContent=d?fmt(d):'--:--';
  try{if(d)navigator.mediaSession.setPositionState({duration:d,playbackRate:au.playbackRate||1,position:Math.min(t,d)})}catch(e){}},500);
@@ -556,5 +597,10 @@ async function fillTitles(){if(tlr||!cur)return;tlr=true;const my=++tl,ids=cur.v
    m.hidden=false;m.textContent='جارٍ تحميل أسماء الفيديوهات للبحث… '+done+' / '+ids.length;if(done%8==0)filterV()}};
  await Promise.all([w(),w(),w(),w()]);if(my===tl){SV('titles',titles);m.hidden=true;filterV()}tlr=false}
 $('#vq').oninput=()=>{filterV();if($('#vq').value.trim()&&cur&&cur.vids.some(id=>!titles[id]))fillTitles()};
+$('#aloc').onclick=()=>{const v=$('#abs').value.trim();if(!v.includes('localhost:8787'))$('#abs').value='http://localhost:8787\n'+v};
+$('#yo').onclick=()=>{if(!cur)return;snap();try{player.pauseVideo()}catch(e){}const t=Math.floor(cur.t||0),
+ u=cur.type==='v'?`https://www.youtube.com/watch?v=${cur.id}&t=${t}s`:(cur.vid?`https://www.youtube.com/watch?v=${cur.vid}&list=${cur.id}&index=${cur.idx+1}&t=${t}s`:`https://www.youtube.com/playlist?list=${cur.id}`);
+ window.open(u,'_blank','noopener')};
+async function probeLocal(){const ok=LS('aok');$('#amsg').textContent=ok&&ok.u?'آخر خادم عمل: '+ok.u:'لم يُجرَّب خادم بعد. اضغط «اختبار» لفحص الخوادم المتاحة الآن.'}
 render();pp();setTab(tab);
 </script></body></html>
