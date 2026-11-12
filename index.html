@@ -173,6 +173,9 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
 #rmore{display:none}
 @media(max-width:700px){#rdr,#rvm,#rth{display:none}#rmore{display:grid}}
 #bgrid .sub{white-space:normal;line-height:1.5}
+#bfh{display:flex;align-items:center;gap:10px;max-width:1200px;margin:10px auto 0;padding:0 16px}#bfh b{flex:1;min-width:0;font-size:1.05rem}
+.mos{display:grid;width:100%;height:100%;gap:2px;background:var(--bd);grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.mos.n1{grid-template-columns:1fr;grid-template-rows:1fr}.mos.n2{grid-template-rows:1fr}.mos img{width:100%;height:100%;object-fit:cover;display:block;min-height:0}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <linearGradient id="lgb" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="512" y2="512"><stop offset="0" stop-color="#ff6a7f"/><stop offset=".55" stop-color="#e5334a"/><stop offset="1" stop-color="#7a2bd6"/></linearGradient>
@@ -222,7 +225,8 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
 <header><h1><svg class="i logo"><use href="#i-logo"/></svg>مساري</h1><button class="ib" id="aw" aria-label="إبقاء الشاشة مضاءة"><svg class="i"><use href="#i-bulb"/></svg></button><button class="ib" id="tm" aria-label="الوضع"></button><button class="ib acc" id="add" aria-label="إضافة"><svg class="i"><use href="#i-plus"/></svg></button><nav><button data-t="v"><svg class="i"><use href="#i-video"/></svg>الفيديو</button><button data-t="b"><svg class="i"><use href="#i-book"/></svg>الكتب</button></nav></header>
 <div id="sbw"><div class="tbar"><div id="sb"><svg class="i"><use href="#i-search"/></svg><input id="q" type="search" placeholder="ابحث بالاسم…" autocomplete="off" enterkeyhint="search"><button id="qc" hidden aria-label="مسح"><svg class="i"><use href="#i-close"/></svg></button></div><button class="ib" id="qf" aria-label="المفضلة فقط"><svg class="i"><use href="#i-star"/></svg></button><button class="ib" id="vw" aria-label="طريقة العرض"><svg class="i"><use href="#i-bars"/></svg></button></div></div>
 <div id="tv"><div id="empty">لا يوجد شيء بعد.<br>اضغط ＋ وألصق رابط فيديو أو قائمة تشغيل من يوتيوب لتبدأ مسارك.</div>
-<div class="nr" id="nr" hidden></div><main id="grid"></main></div><div id="tb" hidden><div id="bempty" style="text-align:center;color:var(--mut);padding:70px 24px;line-height:2">لا توجد كتب بعد.<br>اضغط ＋ لإضافة ملف PDF أو رابط كتاب.</div><div class="nr" id="bnr" hidden></div><main id="bgrid"></main></div>
+<div class="nr" id="nr" hidden></div><main id="grid"></main></div><div id="tb" hidden><div id="bempty" style="text-align:center;color:var(--mut);padding:70px 24px;line-height:2">لا توجد كتب بعد.<br>اضغط ＋ لإضافة ملف PDF أو رابط كتاب.</div><div id="bfh" hidden><button class="ib" id="bfback" aria-label="رجوع"><svg class="i"><use href="#i-chr"/></svg></button><b id="bft"></b><span class="sub" id="bfc"></span></div>
+<div class="nr" id="bnr" hidden></div><main id="bgrid"></main></div>
 <div id="mini"><img alt=""><div><b class="sub" id="mt" style="display:block"></b><span class="sub" id="ms"></span></div><button class="ib pp"></button></div>
 <section id="pv" class="off">
  <div class="top"><button class="ib" id="cl" aria-label="تصغير"><svg class="i"><use href="#i-chd"/></svg></button><b id="pt"></b><button class="ib" id="lfs" hidden aria-label="ملء الشاشة"><svg class="i"><use href="#i-full"/></svg></button><button class="ib" id="yo" aria-label="فتح في تطبيق يوتيوب"><svg class="i"><use href="#i-ext"/></svg></button><button class="ib" id="am" aria-label="وضع الصوت (يعمل في الخلفية)"><svg class="i"><use href="#i-phones"/></svg></button></div>
@@ -253,7 +257,7 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
  </div>
 </section>
 <dialog id="bd"><h3>إضافة كتاب</h3>
- <label class="sub">اختر ملف PDF من جهازك، أو عدة ملفات، أو مجلدًا كاملًا</label><input type="file" id="bf" accept="application/pdf,.pdf">
+ <label class="sub">اختر ملف PDF من جهازك، أو عدة ملفات، أو مجلدًا (يُنشأ له مجلد واحد في المكتبة تجد كتبه بداخله)</label><input type="file" id="bf" accept="application/pdf,.pdf">
  <div class="row" style="margin-top:6px"><button class="btn sec" id="bfb" style="flex:1"><svg class="i"><use href="#i-book"/></svg> عدة ملفات</button><button class="btn sec" id="bfd" style="flex:1"><svg class="i"><use href="#i-folder"/></svg> مجلد</button></div>
  <input type="file" id="bfm" accept="application/pdf,.pdf" multiple hidden><input type="file" id="bfo" webkitdirectory hidden>
  <div class="sub" style="text-align:center">— أو —</div>
@@ -404,14 +408,28 @@ $('#bok').onclick=async()=>{const f=$('#bf').files[0],u=$('#bu').value.trim(),ke
   $('#bd').close();renderB()
  }catch(e){const m=e&&e.message;$('#bmsg').textContent=f?'تعذر قراءة الملف.':m=='cors'?'الموقع يمنع القراءة من المتصفح. أضف رابط الوسيط من «الوسيط» أسفل الحقول، أو نزّل الملف يدويًا واخترْه من جهازك.':m=='nopdf'?'لم أجد رابط PDF في هذه الصفحة (قد تكون صفحة تحتاج تسجيل دخول أو تعتمد على جافاسكربت). جرّب رابط الملف المباشر.':'تعذر جلب الكتاب. تحقق من الرابط أو الاتصال.'}
  btn.disabled=false;btn.textContent='إضافة'};
-function renderB(){$('#bempty').hidden=!!bks.length;
- const tb=tk(qs.b),bl=bks.filter(b=>(!tb.length||mtc(b.title,tb))&&(!qfo.b||b.fav));bl.sort((a,b)=>(b.fav?1:0)-(a.fav?1:0));
- $('#bnr').hidden=!(bks.length&&!bl.length);$('#bnr').textContent=tb.length?'لا توجد نتائج مطابقة لـ «'+qs.b.trim()+'»':'لا توجد كتب مفضلة بعد. اضغط النجمة على أي كتاب.';
- $('#bgrid').innerHTML=bl.map(b=>{const pct=b.pages>1?Math.round((b.page-1)/(b.pages-1)*100):0;
-  return `<div class="card" data-id="${b.id}"><div class="th bk" data-a="open"><img data-t="${b.id}" alt=""><button class="fv${b.fav?' on':''}" data-a="fav" aria-label="مفضلة">${ic(b.fav?'starf':'star')}</button><span class="bd">${b.off?ic('down')+' دون اتصال':ic('globe')+' أونلاين'}</span><div class="pgs"><i style="width:${pct}%"></i></div></div><div class="cb"><h3>${esc(b.title)}</h3><div class="sub">${b.page>1?'صفحة '+b.page+' من '+b.pages+' • '+pct+'%':b.pages+' صفحة'}${b.size?' • '+(b.size/1048576).toFixed(1)+' MB':''}</div><div class="row"><button class="btn" data-a="open">${ic('book')} ${b.page>1?'متابعة':'قراءة'}</button><button class="btn sec" data-a="menu" aria-label="المزيد">${ic('dots')}</button></div></div></div>`}).join('');
+const bkPct=b=>b.pages>1?Math.round((b.page-1)/(b.pages-1)*100):0,fTitle=id=>(bfs.find(f=>f.id===id)||{}).title||'';
+function bCard(b,showFolder){const pct=bkPct(b);
+ return `<div class="card" data-id="${b.id}"><div class="th bk" data-a="open"><img data-t="${b.id}" alt=""><button class="fv${b.fav?' on':''}" data-a="fav" aria-label="مفضلة">${ic(b.fav?'starf':'star')}</button><span class="bd">${b.off?ic('down')+' دون اتصال':ic('globe')+' أونلاين'}</span><div class="pgs"><i style="width:${pct}%"></i></div></div><div class="cb"><h3>${esc(b.title)}</h3><div class="sub">${b.page>1?'صفحة '+b.page+' من '+b.pages+' • '+pct+'%':b.pages+' صفحة'}${b.size?' • '+(b.size/1048576).toFixed(1)+' MB':''}${showFolder&&b.fid?' • '+esc(fTitle(b.fid)):''}</div><div class="row"><button class="btn" data-a="open">${ic('book')} ${b.page>1?'متابعة':'قراءة'}</button><button class="btn sec" data-a="menu" aria-label="المزيد">${ic('dots')}</button></div></div></div>`}
+function fCard(f){const bs=bks.filter(b=>b.fid===f.id),n=bs.length,avg=n?Math.round(bs.reduce((a,b)=>a+bkPct(b),0)/n):0,last=bs.find(b=>b.id===f.last);
+ return `<div class="card" data-id="${f.id}" data-k="fd"><div class="th bk" data-a="open"><div class="mos n${Math.min(4,n)||1}">${bs.slice(0,4).map(b=>`<img data-t="${b.id}" alt="">`).join('')}</div><button class="fv${f.fav?' on':''}" data-a="fav" aria-label="مفضلة">${ic(f.fav?'starf':'star')}</button><span class="bd">${ic('folder')} ${n} كتاب</span><div class="pgs"><i style="width:${avg}%"></i></div></div><div class="cb"><h3>${esc(f.title)}</h3><div class="sub">${last?'آخر قراءة: '+esc(last.title):'لم تبدأ بعد'} • ${avg}%</div><div class="row"><button class="btn" data-a="${last?'cont':'open'}">${ic(last?'book':'folder')} ${last?'متابعة':'فتح'}</button><button class="btn sec" data-a="menu" aria-label="المزيد">${ic('dots')}</button></div></div></div>`}
+function renderB(){if(bfOpen&&!bfs.some(f=>f.id===bfOpen))bfOpen=null;
+ const fo=bfOpen?bfs.find(f=>f.id===bfOpen):null,tb=tk(qs.b),items=[];
+ if(fo)bks.forEach(b=>{if(b.fid===fo.id)items.push({k:'bk',o:b})});
+ else if(tb.length){bfs.forEach(f=>items.push({k:'fd',o:f}));bks.forEach(b=>items.push({k:'bk',o:b}))}
+ else{bfs.forEach(f=>items.push({k:'fd',o:f}));bks.forEach(b=>{if(!b.fid)items.push({k:'bk',o:b})})}
+ const sh=items.filter(x=>(!tb.length||mtc(x.o.title,tb))&&(!qfo.b||x.o.fav));sh.sort((a,b)=>(b.o.fav?1:0)-(a.o.fav?1:0));
+ $('#bfh').hidden=!fo;if(fo){$('#bft').textContent=fo.title;$('#bfc').textContent=bks.filter(b=>b.fid===fo.id).length+' كتاب'}
+ $('#bempty').hidden=!!(bks.length||bfs.length);$('#bnr').hidden=!((bks.length||bfs.length)&&!sh.length);
+ $('#bnr').textContent=tb.length?'لا توجد نتائج مطابقة لـ «'+qs.b.trim()+'»':(qfo.b?'لا توجد عناصر مفضلة بعد. اضغط النجمة على أي كتاب أو مجلد.':'هذا المجلد فارغ.');
+ $('#bgrid').innerHTML=sh.map(x=>x.k==='fd'?fCard(x.o):bCard(x.o,!fo&&tb.length)).join('');
  document.querySelectorAll('#bgrid img').forEach(i=>fget('t'+i.dataset.t).then(x=>{if(x)i.src=x;else regenThumb(i.dataset.t,i)}).catch(()=>{}))}
-$('#bgrid').onclick=async e=>{const c=e.target.closest('.card'),a=e.target.closest('[data-a]');if(!c||!a)return;const b=bks.find(x=>x.id==c.dataset.id);
- if(a.dataset.a=='del'){if(confirm('حذف «'+b.title+'» ونسخته المحفوظة وتقدّمك؟')){await fdel(b.id);await fdel('t'+b.id);bks=bks.filter(x=>x!=b);SV('bks',bks);renderB()}}else if(a.dataset.a=='edit')ren(b,'bk');else if(a.dataset.a=='fav'){b.fav=!b.fav;SV('bks',bks);renderB()}else if(a.dataset.a=='menu')cardMenu(a,b,'bk');else openBook(b)};
+$('#bgrid').onclick=async e=>{const c=e.target.closest('.card'),a=e.target.closest('[data-a]');if(!c||!a)return;const act=a.dataset.a;
+ if(c.dataset.k==='fd'){const f=bfs.find(x=>x.id==c.dataset.id);if(!f)return;
+  if(act==='fav'){f.fav=!f.fav;SV('bfs',bfs);renderB()}else if(act==='menu')cardMenu(a,f,'fd');
+  else if(act==='cont'){const b=bks.find(x=>x.id===f.last&&x.fid===f.id);b?openBook(b):bfSet(f.id)}else bfSet(f.id);return}
+ const b=bks.find(x=>x.id==c.dataset.id);if(!b)return;
+ if(act==='fav'){b.fav=!b.fav;SV('bks',bks);renderB()}else if(act==='menu')cardMenu(a,b,'bk');else openBook(b)};
 // reader
 const io2=new IntersectionObserver(es=>es.forEach(x=>{const p=pgs[x.target.dataset.n-1];if(!p)return;p.vis=x.isIntersecting;x.isIntersecting?rp(p):rel(p)}),{root:rs,rootMargin:'120% 0px'});
 function rel(p){if(p.task)try{p.task.cancel()}catch(e){}p.el.replaceChildren();p.sw=0}
@@ -431,7 +449,7 @@ function setZoom(z){if(!rb)return;
  if(!pgs.length)return;z=Math.min(4,Math.max(.5,z));const c=curPos();rb.zoom=z;layout();restore(c);clearTimeout(zt);zt=setTimeout(()=>{pgs.forEach(p=>p.vis&&rp(p));SV('bks',bks)},180)}
 function goto(n){if(view=='page'){if(!doc)return;n=Math.min(doc.numPages,Math.max(1,n|0));$('#pn').value=$('#sl').value=n;clearTimeout(gt);gt=setTimeout(()=>{if(n===rb.page||fl)return;Math.abs(n-rb.page)==1?flipTo(n):showPage(n)},180);return}
  if(!pgs.length)return;n=Math.min(pgs.length,Math.max(1,n|0));rs.scrollTop=pgs[n-1].el.offsetTop-8}
-async function openBook(b){SV('last',{k:'book',id:b.id});rb=b;$('#rv').dataset.m=rmode;tc(1);$('#rt').textContent=b.title;$('#rv').classList.remove('off');pgsEl.innerHTML='';
+async function openBook(b){SV('last',{k:'book',id:b.id});if(b.fid){const fo=bfs.find(x=>x.id===b.fid);if(fo){fo.last=b.id;SV('bfs',bfs)}}rb=b;$('#rv').dataset.m=rmode;tc(1);$('#rt').textContent=b.title;$('#rv').classList.remove('off');pgsEl.innerHTML='';
  try{await loadPdfjs();const f=b.off?await fget(b.id):null;doc=await pdfjsLib.getDocument(f?{data:await f.arrayBuffer()}:{url:b.url}).promise}catch(e){toast('تعذر فتح الكتاب (تحقق من الاتصال)');closeBook();return}
  $('#sl').max=$('#pn').max=doc.numPages;$('#pt2').textContent='/ '+doc.numPages;$('#pn').value=$('#sl').value=b.page;await showView()}
 async function buildScroll(){const pg1=await doc.getPage(1),v=pg1.getViewport({scale:1}),r1=v.height/v.width;pgs=[];pgsEl.innerHTML='';
@@ -637,7 +655,7 @@ setInterval(()=>{if(amode||an||!playing||!cur||cur.local||loading||cur.hold||cur
 function ren(o,k){rtg={o,k};$('#rnm').value=o.title;$('#rdlg').showModal();setTimeout(()=>$('#rnm').select(),60)}
 $('#rno').onclick=()=>$('#rdlg').close();$('#rnm').onkeydown=e=>{if(e.key==='Enter')$('#rok').click()};
 $('#rok').onclick=()=>{const v=$('#rnm').value.trim();if(!v||!rtg)return;rtg.o.title=v;
- if(rtg.k==='pl'){save();render();if(cur&&cur.id===rtg.o.id){$('#pt').textContent=v;ui()}}else{SV('bks',bks);renderB();if(rb&&rb.id===rtg.o.id)$('#rt').textContent=v}
+ if(rtg.k==='pl'){save();render();if(cur&&cur.id===rtg.o.id){$('#pt').textContent=v;ui()}}else{if(rtg.k==='fd')SV('bfs',bfs);else SV('bks',bks);renderB();if(rb&&rb.id===rtg.o.id)$('#rt').textContent=v}
  $('#rdlg').close()};
 // ---- search
 const qs={v:'',b:''},qfo=LS('qfo')||{v:false,b:false},vwm=LS('vwm')||{v:'grid',b:'grid'};let tl=0,tlr=false;
@@ -667,7 +685,7 @@ $('#vw').onclick=()=>{vwm[tab]=vwm[tab]==='list'?'grid':'list';SV('vwm',vwm);tba
 function coldPlay(){cur.cold=0;if(ready)play(cur);else{pending=cur;toast('جارٍ تحميل المشغّل…')}}
 function coldStep(d){const n=clamp(cur.idx+d,0,Math.max(0,cur.n-1));if(n===cur.idx)return;cur.idx=n;cur.t=0;const id=cur.vids[n];if(id&&titles[id])cur.vt=titles[id];save();ui()}
 function restoreLast(){pls.forEach(p=>{p.cold=0;p.hold=0});const l=LS('last');if(!l)return;
- if(l.k==='book'){const b=bks.find(x=>x.id===l.id);if(b){setTab('b');openBook(b).then(()=>{if(LS('rimm'))setImm(true)}).catch(()=>{})}}
+ if(l.k==='book'){const b=bks.find(x=>x.id===l.id);if(b){bfOpen=b.fid||null;SV('bfo',bfOpen);setTab('b');openBook(b).then(()=>{if(LS('rimm'))setImm(true)}).catch(()=>{})}}
  else if(l.k==='pl'){const p=pls.find(x=>x.id===l.id);if(p){setTab('v');cur=p;pickEngine(p);p.cold=1;buildList();$('#pv').classList.remove('off');ui()}}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&rb)SV('bks',bks)});
 // ---- local media (files and folders from the device)
@@ -816,24 +834,35 @@ document.querySelectorAll('#rmenu .swb').forEach(b=>b.onclick=()=>{setRmode(b.da
 let cm=null;
 function cardMenu(btn,obj,kind){const m=$('#cmenu');if(!m.hidden&&cm&&cm.obj===obj){m.hidden=true;return}cm={obj,kind};placeMenu(m,btn)}
 $('#cm-edit').onclick=()=>{closeMenus();if(cm)ren(cm.obj,cm.kind)};
-$('#cm-del').onclick=()=>{closeMenus();if(!cm)return;cm.kind==='pl'?delP(cm.obj):delB(cm.obj)};
+$('#cm-del').onclick=()=>{closeMenus();if(!cm)return;cm.kind==='pl'?delP(cm.obj):cm.kind==='fd'?delF(cm.obj):delB(cm.obj)};
 function delP(p){if(confirm('حذف «'+p.title+'» وتقدّمك فيها؟')){if(cur&&cur.id==p.id){try{player.stopVideo()}catch(e){}cur=null;$('#mini').style.display='none'}pls=pls.filter(x=>x!=p);if(p.local)(p.vids||[]).forEach(delLocal);save();render()}}
-async function delB(b){if(confirm('حذف «'+b.title+'» ونسخته المحفوظة وتقدّمك؟')){await fdel(b.id);await fdel('t'+b.id);bks=bks.filter(x=>x!=b);SV('bks',bks);renderB()}}
+async function delB(b){if(confirm('حذف «'+b.title+'» ونسخته المحفوظة وتقدّمك؟')){await fdel(b.id);await fdel('t'+b.id);bks=bks.filter(x=>x!=b);SV('bks',bks);
+ if(b.fid&&!bks.some(x=>x.fid===b.fid)){bfs=bfs.filter(f=>f.id!==b.fid);SV('bfs',bfs);if(bfOpen===b.fid){bfOpen=null;SV('bfo',null)}}renderB()}}
+async function delF(f){const bs=bks.filter(b=>b.fid===f.id);if(confirm('حذف المجلد «'+f.title+'» وجميع كتبه ('+bs.length+') من الجهاز؟')){for(const b of bs){await fdel(b.id);await fdel('t'+b.id)}
+ bks=bks.filter(b=>b.fid!==f.id);bfs=bfs.filter(x=>x!==f);SV('bks',bks);SV('bfs',bfs);if(bfOpen===f.id){bfOpen=null;SV('bfo',null)}renderB()}}
 // ---- books: import several PDFs / a whole folder, and rebuild a missing cover
-async function importBooks(list){const fs=[...list].filter(f=>/\.pdf$/i.test(f.name)||f.type==='application/pdf');if(!fs.length){toast('لم أجد ملفات PDF');return}
- fs.sort((a,b)=>natural(a.webkitRelativePath||a.name,b.webkitRelativePath||b.name));
+const isPdfFile=f=>/\.pdf$/i.test(f.name)||f.type==='application/pdf';
+async function importBooks(list){const fs=[...list].filter(isPdfFile);if(!fs.length){toast('لم أجد ملفات PDF');return}
  try{const e=await navigator.storage.estimate(),need=fs.reduce((a,f)=>a+f.size,0);if(e.quota&&e.usage+need>e.quota*.92){toast('المساحة المتاحة في المتصفح لا تكفي لهذه الكتب');return}}catch(e){}
  try{navigator.storage.persist()}catch(e){}
  try{await loadPdfjs()}catch(e){toast('تعذر تحميل مكتبة القراءة. تحقق من الاتصال');return}
- let ok=0,ins=0;
- for(let i=0;i<fs.length;i++){const f=fs[i];toast('جارٍ إضافة '+(i+1)+' / '+fs.length+': '+stripExt(f.name));
+ const solo=[],groups=new Map();
+ fs.forEach(f=>{const rp=f.webkitRelativePath||'';if(!rp.includes('/')){solo.push(f);return}const parts=rp.split('/'),dir=parts.slice(0,-1),key=dir.join('/');
+  if(!groups.has(key))groups.set(key,{title:dir.length===1?dir[0]:dir.slice(1).join(' / '),files:[]});groups.get(key).files.push(f)});
+ const jobs=[];[...groups.values()].sort((a,b)=>natural(a.title,b.title)).forEach(g=>{g.files.sort((a,b)=>natural(a.webkitRelativePath,b.webkitRelativePath));g.files.forEach(f=>jobs.push({f,g}))});
+ solo.sort((a,b)=>natural(a.name,b.name)).forEach(f=>jobs.push({f,g:null}));
+ let ok=0,ins=0,fins=0;const fmap=new Map();
+ for(let i=0;i<jobs.length;i++){const{f,g}=jobs[i];toast('جارٍ إضافة '+(i+1)+' / '+jobs.length+': '+stripExt(f.name));
   try{const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise,id='b'+rid_()+i,tn=await mkThumb(pdf),n=pdf.numPages;pdf.destroy();
    await fput(id,new Blob([f],{type:'application/pdf'}));await fput('t'+id,tn);
-   bks.splice(ins++,0,{id,title:stripExt(f.name),pages:n,page:1,y:0,zoom:1,off:true,url:'',size:f.size});SV('bks',bks);ok++;renderB()}
+   let fid;if(g){let fo=fmap.get(g);if(!fo){fo={id:'f'+rid_()+i,title:g.title,fav:false,last:null};fmap.set(g,fo);bfs.splice(fins++,0,fo);SV('bfs',bfs)}fid=fo.id}
+   bks.splice(ins++,0,{id,title:stripExt(f.name),pages:n,page:1,y:0,zoom:1,off:true,url:'',size:f.size,fid});SV('bks',bks);ok++;renderB()}
   catch(e){toast('تعذر إضافة «'+f.name+'» (ملف تالف أو المساحة؟)')}}
- toast('تمت إضافة '+ok+' من '+fs.length+' كتاب')}
+ toast('تمت إضافة '+ok+' من '+jobs.length+' كتاب'+(fmap.size?' في '+fmap.size+' مجلد':''))}
+$('#bfback').onclick=()=>bfSet(null);
 $('#bfb').onclick=()=>$('#bfm').click();$('#bfd').onclick=()=>$('#bfo').click();
 [$('#bfm'),$('#bfo')].forEach(inp=>inp.onchange=async()=>{const fs=[...inp.files];inp.value='';$('#bd').close();if(fs.length)await importBooks(fs)});
+let bfs=LS('bfs')||[],bfOpen=LS('bfo')||null;function bfSet(id){bfOpen=id||null;SV('bfo',bfOpen);renderB()}
 const regen=new Set();
 async function regenThumb(id,img){if(regen.has(id))return;regen.add(id);try{await loadPdfjs();const f=await fget(id);if(!f)return;const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise,tn=await mkThumb(pdf);pdf.destroy();await fput('t'+id,tn);if(img)img.src=tn}catch(e){}}
 render();pp();setTab(tab);restoreLast();
