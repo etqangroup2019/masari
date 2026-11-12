@@ -164,6 +164,15 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
 #dlbar{position:fixed;inset-inline:10px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:25;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:8px 10px;box-shadow:var(--sh);max-width:560px;margin-inline:auto}
 .dlt{display:flex;align-items:center;gap:8px;font-size:.82rem}.dlt span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dlt .ib{width:30px;height:30px}.dlbg{height:5px;background:var(--bd);border-radius:9px;overflow:hidden;margin-top:6px}.dlbg i{display:block;height:100%;width:0;background:var(--acc)}
+.pop{position:fixed;z-index:60;background:var(--card);border:1px solid var(--bd);border-radius:14px;box-shadow:0 10px 34px #0007;padding:6px;min-width:220px;color:var(--tx)}
+.mi{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:12px;border-radius:10px;font-size:.95rem;text-align:start}
+.mi:hover{background:var(--bg)}.mi .i{width:18px;height:18px;margin-inline-end:8px;vertical-align:-4px}.mi.dn{color:#ff5a6e;justify-content:flex-start}.mi.ed{justify-content:flex-start}
+.mv{color:var(--mut);font-size:.82rem}
+.mc{cursor:default}.mc:hover{background:none}
+.sw{display:flex;gap:6px}.swb{padding:6px 10px;border-radius:99px;border:1px solid var(--bd);font-size:.8rem;background:var(--bg)}.swb.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+#rmore{display:none}
+@media(max-width:700px){#rdr,#rvm,#rth{display:none}#rmore{display:grid}}
+#bgrid .sub{white-space:normal;line-height:1.5}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <linearGradient id="lgb" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="512" y2="512"><stop offset="0" stop-color="#ff6a7f"/><stop offset=".55" stop-color="#e5334a"/><stop offset="1" stop-color="#7a2bd6"/></linearGradient>
@@ -207,6 +216,7 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
 <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
 <symbol id="i-bars" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></symbol>
 <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.5h7a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="18.5" r="1.7" fill="currentColor" stroke="none"/></symbol>
 <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/></symbol>
 </defs></svg>
 <header><h1><svg class="i logo"><use href="#i-logo"/></svg>مساري</h1><button class="ib" id="aw" aria-label="إبقاء الشاشة مضاءة"><svg class="i"><use href="#i-bulb"/></svg></button><button class="ib" id="tm" aria-label="الوضع"></button><button class="ib acc" id="add" aria-label="إضافة"><svg class="i"><use href="#i-plus"/></svg></button><nav><button data-t="v"><svg class="i"><use href="#i-video"/></svg>الفيديو</button><button data-t="b"><svg class="i"><use href="#i-book"/></svg>الكتب</button></nav></header>
@@ -215,11 +225,11 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
 <div class="nr" id="nr" hidden></div><main id="grid"></main></div><div id="tb" hidden><div id="bempty" style="text-align:center;color:var(--mut);padding:70px 24px;line-height:2">لا توجد كتب بعد.<br>اضغط ＋ لإضافة ملف PDF أو رابط كتاب.</div><div class="nr" id="bnr" hidden></div><main id="bgrid"></main></div>
 <div id="mini"><img alt=""><div><b class="sub" id="mt" style="display:block"></b><span class="sub" id="ms"></span></div><button class="ib pp"></button></div>
 <section id="pv" class="off">
- <div class="top"><button class="ib" id="cl" aria-label="تصغير"><svg class="i"><use href="#i-chd"/></svg></button><b id="pt"></b><button class="ib" id="lfs" hidden aria-label="ملء الشاشة"><svg class="i"><use href="#i-full"/></svg></button><button class="ib" id="dl" aria-label="تنزيل للتشغيل دون اتصال"><svg class="i"><use href="#i-down"/></svg></button><button class="ib" id="yo" aria-label="فتح في تطبيق يوتيوب"><svg class="i"><use href="#i-ext"/></svg></button><button class="ib" id="am" aria-label="وضع الصوت (يعمل في الخلفية)"><svg class="i"><use href="#i-phones"/></svg></button></div>
+ <div class="top"><button class="ib" id="cl" aria-label="تصغير"><svg class="i"><use href="#i-chd"/></svg></button><b id="pt"></b><button class="ib" id="lfs" hidden aria-label="ملء الشاشة"><svg class="i"><use href="#i-full"/></svg></button><button class="ib" id="yo" aria-label="فتح في تطبيق يوتيوب"><svg class="i"><use href="#i-ext"/></svg></button><button class="ib" id="am" aria-label="وضع الصوت (يعمل في الخلفية)"><svg class="i"><use href="#i-phones"/></svg></button></div>
  <div class="pb">
   <div class="left"><div id="box"><img id="cov" alt=""><video id="lv" playsinline></video><div id="yt"></div></div>
    <div class="np"><b id="nt">—</b><small id="ns"></small></div><div id="skb" hidden><span class="sub" id="tc">0:00</span><input type="range" id="sk" min="0" max="100" value="0"><span class="sub" id="td">0:00</span><button class="ib" id="ag" aria-label="إعدادات الصوت"><svg class="i"><use href="#i-sliders"/></svg></button></div>
-   <div class="ctl"><button class="ib" id="prev" aria-label="السابق"><svg class="i"><use href="#i-prev"/></svg></button><button class="ib" id="b10" aria-label="رجوع 10 ثوان"><svg class="i"><use href="#i-back10"/></svg></button><button class="ib main acc pp"></button><button class="ib" id="f10" aria-label="تقديم 10 ثوان"><svg class="i"><use href="#i-fwd10"/></svg></button><button class="ib" id="next" aria-label="التالي"><svg class="i"><use href="#i-next"/></svg></button></div><div class="ctl2"><button class="pill" id="rate">1×</button><button class="pill on" id="an" aria-label="الانتقال التلقائي للفيديو التالي"></button></div>
+   <div class="ctl"><button class="ib" id="prev" aria-label="السابق"><svg class="i"><use href="#i-prev"/></svg></button><button class="ib" id="b10" aria-label="رجوع 10 ثوان"><svg class="i"><use href="#i-back10"/></svg></button><button class="ib main acc pp"></button><button class="ib" id="f10" aria-label="تقديم 10 ثوان"><svg class="i"><use href="#i-fwd10"/></svg></button><button class="ib" id="next" aria-label="التالي"><svg class="i"><use href="#i-next"/></svg></button></div><div class="ctl2"><button class="pill" id="rate">1×</button><button class="pill on" id="an" aria-label="الانتقال التلقائي للفيديو التالي"></button><button class="pill" id="dl" aria-label="تنزيل للتشغيل دون اتصال"><svg class="i"><use href="#i-down"/></svg><span>تنزيل</span></button></div>
   </div>
   <div class="vcol"><div id="vs"><input id="vq" type="search" placeholder="ابحث في فيديوهات القائمة…" autocomplete="off" enterkeyhint="search"><div class="sub" id="vst" hidden></div><div class="sub" id="vnr" hidden>لا توجد فيديوهات مطابقة.</div></div><div id="vl"></div></div>
  </div>
@@ -233,12 +243,19 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
  <div class="row" style="margin-top:10px"><button class="btn" id="ok">إضافة</button><button class="btn sec" id="no">إلغاء</button></div>
 </dialog>
 <section id="rv" class="off" data-m="light">
- <div class="top"><button class="ib" id="rcl" aria-label="إغلاق"><svg class="i"><use href="#i-close"/></svg></button><b id="rt"></b><button class="ib" id="rdr" aria-label="اتجاه الكتاب">ع</button><button class="ib" id="rvm" aria-label="طريقة العرض"><svg class="i"><use href="#i-bookopen"/></svg></button><button class="ib" id="rth" aria-label="وضع القراءة"><svg class="i"><use href="#i-contrast"/></svg></button><button class="ib" id="rfs" aria-label="ملء الشاشة"><svg class="i"><use href="#i-full"/></svg></button></div>
+ <div class="top"><button class="ib" id="rcl" aria-label="إغلاق"><svg class="i"><use href="#i-close"/></svg></button><b id="rt"></b><button class="ib" id="rdr" aria-label="اتجاه الكتاب">ع</button><button class="ib" id="rvm" aria-label="طريقة العرض"><svg class="i"><use href="#i-bookopen"/></svg></button><button class="ib" id="rth" aria-label="وضع القراءة"><svg class="i"><use href="#i-contrast"/></svg></button><button class="ib" id="rfs" aria-label="ملء الشاشة"><svg class="i"><use href="#i-full"/></svg></button><button class="ib" id="rmore" aria-label="المزيد"><svg class="i"><use href="#i-dots"/></svg></button></div>
  <div id="rs"><div id="pages"></div></div><div id="ps" hidden><div id="pbk" data-d="rtl"></div></div>
  <div class="rbar"><div class="rb1"><input type="number" id="pn" min="1"><span class="sub" id="pt2"></span><input type="range" id="sl" min="1" value="1"></div><div class="rb2"><button class="ib" id="gpv" hidden></button><button class="ib" id="zo" aria-label="تصغير"><svg class="i"><use href="#i-minus"/></svg></button><button class="ib" id="fit" aria-label="ملاءمة"><svg class="i"><use href="#i-fit"/></svg></button><button class="ib" id="zi" aria-label="تكبير"><svg class="i"><use href="#i-plus"/></svg></button><button class="ib" id="gnx" hidden></button></div></div><div id="rside" hidden><button class="ib" id="rex" aria-label="إنهاء ملء الشاشة"><svg class="i"><use href="#i-unfull"/></svg></button><div id="rzg"><button class="ib" id="rzi" aria-label="تكبير"><svg class="i"><use href="#i-plus"/></svg></button><button class="ib" id="rzo" aria-label="تصغير"><svg class="i"><use href="#i-minus"/></svg></button><button class="ib" id="rzf" aria-label="ملاءمة"><svg class="i"><use href="#i-fit"/></svg></button></div><button class="ib" id="rzt" aria-label="إخفاء أزرار التكبير"></button></div><div id="rpg" hidden></div>
+ <div id="rmenu" class="pop" hidden>
+  <button class="mi" id="mi-dir"><span>اتجاه الكتاب</span><span class="mv" id="mv-dir"></span></button>
+  <button class="mi" id="mi-view"><span>طريقة العرض</span><span class="mv" id="mv-view"></span></button>
+  <div class="mi mc"><span>لون القراءة</span><span class="sw"><button class="swb" data-m="light">عادي</button><button class="swb" data-m="sepia">ورقي</button><button class="swb" data-m="dark">ليلي</button></span></div>
+ </div>
 </section>
 <dialog id="bd"><h3>إضافة كتاب</h3>
- <label class="sub">اختر ملف PDF من جهازك</label><input type="file" id="bf" accept="application/pdf,.pdf">
+ <label class="sub">اختر ملف PDF من جهازك، أو عدة ملفات، أو مجلدًا كاملًا</label><input type="file" id="bf" accept="application/pdf,.pdf">
+ <div class="row" style="margin-top:6px"><button class="btn sec" id="bfb" style="flex:1"><svg class="i"><use href="#i-book"/></svg> عدة ملفات</button><button class="btn sec" id="bfd" style="flex:1"><svg class="i"><use href="#i-folder"/></svg> مجلد</button></div>
+ <input type="file" id="bfm" accept="application/pdf,.pdf" multiple hidden><input type="file" id="bfo" webkitdirectory hidden>
  <div class="sub" style="text-align:center">— أو —</div>
  <input id="bu" placeholder="رابط صفحة الكتاب أو ملف PDF المباشر" dir="ltr" inputmode="url">
  <input id="bn" placeholder="اسم الكتاب (اختياري)">
@@ -263,6 +280,7 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
  <div class="sub" style="white-space:normal;line-height:1.7;margin-top:6px">يُحفظ التنزيل على هذا الجهاز كعنصر «محلي» في المكتبة ويعمل دون إنترنت. الجودات العالية تُنزَّل صورةً وصوتًا منفصلين ويدمجهما المشغّل معًا. الملفات الكبيرة تحتاج مساحة في المتصفح واتصالًا ثابتًا.</div>
  <div class="row" style="margin-top:10px"><button class="btn" id="dgo" disabled>تنزيل</button><button class="btn sec" id="dno">إلغاء</button></div></dialog>
 <div id="dlbar" hidden><div class="dlt"><span id="dlt"></span><button class="ib" id="dlx" aria-label="إلغاء التنزيل"><svg class="i"><use href="#i-close"/></svg></button></div><div class="dlbg"><i id="dlp"></i></div></div>
+<div id="cmenu" class="pop" hidden><button class="mi ed" id="cm-edit"><svg class="i"><use href="#i-edit"/></svg> تعديل الاسم</button><button class="mi dn" id="cm-del"><svg class="i"><use href="#i-trash"/></svg> حذف</button></div>
 <div id="toast"></div>
 <script>
 const ic=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -285,10 +303,10 @@ function render(){
  bd=p.done?'مكتمل':one?(p.d?fmt(p.d):'فيديو'):(p.n?`فيديو ${p.idx+1} من ${p.n}`:'جديدة'),
  sub=one?(p.done?'تمت مشاهدة الفيديو':p.t>3?'توقفت عند '+fmt(p.t):'لم يُشاهد بعد'):(p.done?'أكملت القائمة':p.vt?'آخر فيديو: '+esc(p.vt)+' • '+fmt(p.t):'لم تبدأ بعد'),
  lb=p.done?'إعادة':((one?p.t>3:p.vid)?'متابعة':'ابدأ');
- return `<div class="card" data-id="${p.id}"><div class="th" data-a="open"><img src="${thumbOf(p)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><button class="fv${p.fav?' on':''}" data-a="fav" aria-label="مفضلة">${ic(p.fav?'starf':'star')}</button><span class="tp">${ic(one?'video':'list')}${one?'فيديو':'قائمة'}${p.local?' • محلي':''}</span><span class="bd">${bd}</span></div><div class="cb"><h3>${esc(p.title)}</h3><div class="sub">${hit?'فيديو: '+esc(titles[hit]):sub}</div><div class="bar"><i style="width:${pct}%"></i></div><div class="row"><button class="btn" data-a="open">${ic('play')} ${lb}</button><button class="btn sec" data-a="edit">${ic('edit')}</button><button class="btn sec" data-a="del">${ic('trash')}</button></div></div></div>`}).join('');
+ return `<div class="card" data-id="${p.id}"><div class="th" data-a="open"><img src="${thumbOf(p)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><button class="fv${p.fav?' on':''}" data-a="fav" aria-label="مفضلة">${ic(p.fav?'starf':'star')}</button><span class="tp">${ic(one?'video':'list')}${one?'فيديو':'قائمة'}${p.local?' • محلي':''}</span><span class="bd">${bd}</span></div><div class="cb"><h3>${esc(p.title)}</h3><div class="sub">${hit?'فيديو: '+esc(titles[hit]):sub}</div><div class="bar"><i style="width:${pct}%"></i></div><div class="row"><button class="btn" data-a="open">${ic('play')} ${lb}</button><button class="btn sec" data-a="menu" aria-label="المزيد">${ic('dots')}</button></div></div></div>`}).join('');
 }
 $('#grid').onclick=e=>{const c=e.target.closest('.card'),a=e.target.closest('[data-a]');if(!c||!a)return;const p=pls.find(x=>x.id==c.dataset.id);
- if(a.dataset.a=='del'){if(confirm('حذف «'+p.title+'» وتقدّمك فيها؟')){if(cur&&cur.id==p.id){player.stopVideo();cur=null;$('#mini').style.display='none'}pls=pls.filter(x=>x!=p);if(p.local)(p.vids||[]).forEach(delLocal);save();render()}}else if(a.dataset.a=='edit')ren(p,'pl');else if(a.dataset.a=='fav'){p.fav=!p.fav;save();render()}else openPl(p)};
+ if(a.dataset.a=='del'){if(confirm('حذف «'+p.title+'» وتقدّمك فيها؟')){if(cur&&cur.id==p.id){player.stopVideo();cur=null;$('#mini').style.display='none'}pls=pls.filter(x=>x!=p);if(p.local)(p.vids||[]).forEach(delLocal);save();render()}}else if(a.dataset.a=='edit')ren(p,'pl');else if(a.dataset.a=='fav'){p.fav=!p.fav;save();render()}else if(a.dataset.a=='menu')cardMenu(a,p,'pl');else openPl(p)};
 $('#add').onclick=()=>{$('#url').value='';$('#nm').value='';$('#dlg').showModal()};$('#no').onclick=()=>$('#dlg').close();
 function parseYT(u){u=u.trim();const l=u.match(/[?&]list=([\w-]+)/),v=u.match(/(?:youtu\.be\/|[?&]v=|\/(?:shorts|embed|live|v)\/)([\w-]{11})/),ix=(u.match(/[?&]index=(\d+)/)||[])[1];
  if(l)return{type:'pl',id:l[1],ix:ix?+ix-1:0};if(v)return{type:'v',id:v[1]};if(/^[\w-]{11}$/.test(u))return{type:'v',id:u};if(/^[\w-]{12,}$/.test(u))return{type:'pl',id:u,ix:0};return null}
@@ -390,10 +408,10 @@ function renderB(){$('#bempty').hidden=!!bks.length;
  const tb=tk(qs.b),bl=bks.filter(b=>(!tb.length||mtc(b.title,tb))&&(!qfo.b||b.fav));bl.sort((a,b)=>(b.fav?1:0)-(a.fav?1:0));
  $('#bnr').hidden=!(bks.length&&!bl.length);$('#bnr').textContent=tb.length?'لا توجد نتائج مطابقة لـ «'+qs.b.trim()+'»':'لا توجد كتب مفضلة بعد. اضغط النجمة على أي كتاب.';
  $('#bgrid').innerHTML=bl.map(b=>{const pct=b.pages>1?Math.round((b.page-1)/(b.pages-1)*100):0;
-  return `<div class="card" data-id="${b.id}"><div class="th bk" data-a="open"><img data-t="${b.id}" alt=""><button class="fv${b.fav?' on':''}" data-a="fav" aria-label="مفضلة">${ic(b.fav?'starf':'star')}</button><span class="bd">${b.off?ic('down')+' دون اتصال':ic('globe')+' أونلاين'}</span><div class="pgs"><i style="width:${pct}%"></i></div></div><div class="cb"><h3>${esc(b.title)}</h3><div class="sub">${b.page>1?'صفحة '+b.page+' من '+b.pages+' • '+pct+'%':b.pages+' صفحة'}${b.size?' • '+(b.size/1048576).toFixed(1)+' MB':''}</div><div class="row"><button class="btn" data-a="open">${ic('book')} ${b.page>1?'متابعة':'قراءة'}</button><button class="btn sec" data-a="edit" aria-label="تعديل الاسم">${ic('edit')}</button><button class="btn sec" data-a="del" aria-label="حذف">${ic('trash')}</button></div></div></div>`}).join('');
- document.querySelectorAll('#bgrid img').forEach(i=>fget('t'+i.dataset.t).then(x=>x&&(i.src=x)).catch(()=>{}))}
+  return `<div class="card" data-id="${b.id}"><div class="th bk" data-a="open"><img data-t="${b.id}" alt=""><button class="fv${b.fav?' on':''}" data-a="fav" aria-label="مفضلة">${ic(b.fav?'starf':'star')}</button><span class="bd">${b.off?ic('down')+' دون اتصال':ic('globe')+' أونلاين'}</span><div class="pgs"><i style="width:${pct}%"></i></div></div><div class="cb"><h3>${esc(b.title)}</h3><div class="sub">${b.page>1?'صفحة '+b.page+' من '+b.pages+' • '+pct+'%':b.pages+' صفحة'}${b.size?' • '+(b.size/1048576).toFixed(1)+' MB':''}</div><div class="row"><button class="btn" data-a="open">${ic('book')} ${b.page>1?'متابعة':'قراءة'}</button><button class="btn sec" data-a="menu" aria-label="المزيد">${ic('dots')}</button></div></div></div>`}).join('');
+ document.querySelectorAll('#bgrid img').forEach(i=>fget('t'+i.dataset.t).then(x=>{if(x)i.src=x;else regenThumb(i.dataset.t,i)}).catch(()=>{}))}
 $('#bgrid').onclick=async e=>{const c=e.target.closest('.card'),a=e.target.closest('[data-a]');if(!c||!a)return;const b=bks.find(x=>x.id==c.dataset.id);
- if(a.dataset.a=='del'){if(confirm('حذف «'+b.title+'» ونسخته المحفوظة وتقدّمك؟')){await fdel(b.id);await fdel('t'+b.id);bks=bks.filter(x=>x!=b);SV('bks',bks);renderB()}}else if(a.dataset.a=='edit')ren(b,'bk');else if(a.dataset.a=='fav'){b.fav=!b.fav;SV('bks',bks);renderB()}else openBook(b)};
+ if(a.dataset.a=='del'){if(confirm('حذف «'+b.title+'» ونسخته المحفوظة وتقدّمك؟')){await fdel(b.id);await fdel('t'+b.id);bks=bks.filter(x=>x!=b);SV('bks',bks);renderB()}}else if(a.dataset.a=='edit')ren(b,'bk');else if(a.dataset.a=='fav'){b.fav=!b.fav;SV('bks',bks);renderB()}else if(a.dataset.a=='menu')cardMenu(a,b,'bk');else openBook(b)};
 // reader
 const io2=new IntersectionObserver(es=>es.forEach(x=>{const p=pgs[x.target.dataset.n-1];if(!p)return;p.vis=x.isIntersecting;x.isIntersecting?rp(p):rel(p)}),{root:rs,rootMargin:'120% 0px'});
 function rel(p){if(p.task)try{p.task.cancel()}catch(e){}p.el.replaceChildren();p.sw=0}
@@ -782,5 +800,41 @@ $('#dgo').onclick=()=>{const q=(document.querySelector('input[name=dqr]:checked'
  if(!LS('dlnote')){if(!confirm('التنزيل يتم عبر خوادم خارجية غير رسمية وقد يخالف شروط استخدام يوتيوب. نزّل فقط ما تملكه أو يُسمح لك بنسخه للاستخدام الشخصي. هل تتابع؟'))return;SV('dlnote',1)}
  const vid=$('#dgo').dataset.vid,ids=all?cur.vids.slice():[vid];$('#ddlg').close();
  startDownload({ids,titles:ids.map(i=>titles[i]||''),q:q==='audio'?'audio':+q,title:cur.title,single:!all});toast('بدأ التنزيل. يمكنك متابعة التصفح.')};
+// ---- popup menus (reader "more" menu, card menu)
+function placeMenu(m,b){m.hidden=false;const r=b.getBoundingClientRect(),w=m.offsetWidth,h=m.offsetHeight;let l=r.left+r.width/2-w/2;l=Math.min(Math.max(8,l),innerWidth-w-8);let t=r.bottom+6;if(t+h>innerHeight-8)t=Math.max(8,r.top-h-6);m.style.left=l+'px';m.style.top=t+'px'}
+function closeMenus(){$('#rmenu').hidden=true;$('#cmenu').hidden=true}
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('#rmenu,#cmenu,#rmore,[data-a=menu]'))closeMenus()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenus()});
+addEventListener('resize',closeMenus);document.addEventListener('scroll',closeMenus,true);
+function setRmode(m){rmode=m;SV('rm',m);$('#rv').dataset.m=m;tc(1)}
+function rmUI(){$('#mv-dir').textContent=rdir=='rtl'?'من اليمين لليسار':'من اليسار لليمين';$('#mv-view').textContent=view=='page'?'صفحات':'تمرير';
+ document.querySelectorAll('#rmenu .swb').forEach(b=>b.classList.toggle('on',b.dataset.m===rmode))}
+$('#rmore').onclick=()=>{const m=$('#rmenu');if(!m.hidden){m.hidden=true;return}rmUI();placeMenu(m,$('#rmore'))};
+$('#mi-dir').onclick=()=>{closeMenus();$('#rdr').click()};
+$('#mi-view').onclick=()=>{closeMenus();$('#rvm').click()};
+document.querySelectorAll('#rmenu .swb').forEach(b=>b.onclick=()=>{setRmode(b.dataset.m);rmUI()});
+let cm=null;
+function cardMenu(btn,obj,kind){const m=$('#cmenu');if(!m.hidden&&cm&&cm.obj===obj){m.hidden=true;return}cm={obj,kind};placeMenu(m,btn)}
+$('#cm-edit').onclick=()=>{closeMenus();if(cm)ren(cm.obj,cm.kind)};
+$('#cm-del').onclick=()=>{closeMenus();if(!cm)return;cm.kind==='pl'?delP(cm.obj):delB(cm.obj)};
+function delP(p){if(confirm('حذف «'+p.title+'» وتقدّمك فيها؟')){if(cur&&cur.id==p.id){try{player.stopVideo()}catch(e){}cur=null;$('#mini').style.display='none'}pls=pls.filter(x=>x!=p);if(p.local)(p.vids||[]).forEach(delLocal);save();render()}}
+async function delB(b){if(confirm('حذف «'+b.title+'» ونسخته المحفوظة وتقدّمك؟')){await fdel(b.id);await fdel('t'+b.id);bks=bks.filter(x=>x!=b);SV('bks',bks);renderB()}}
+// ---- books: import several PDFs / a whole folder, and rebuild a missing cover
+async function importBooks(list){const fs=[...list].filter(f=>/\.pdf$/i.test(f.name)||f.type==='application/pdf');if(!fs.length){toast('لم أجد ملفات PDF');return}
+ fs.sort((a,b)=>natural(a.webkitRelativePath||a.name,b.webkitRelativePath||b.name));
+ try{const e=await navigator.storage.estimate(),need=fs.reduce((a,f)=>a+f.size,0);if(e.quota&&e.usage+need>e.quota*.92){toast('المساحة المتاحة في المتصفح لا تكفي لهذه الكتب');return}}catch(e){}
+ try{navigator.storage.persist()}catch(e){}
+ try{await loadPdfjs()}catch(e){toast('تعذر تحميل مكتبة القراءة. تحقق من الاتصال');return}
+ let ok=0,ins=0;
+ for(let i=0;i<fs.length;i++){const f=fs[i];toast('جارٍ إضافة '+(i+1)+' / '+fs.length+': '+stripExt(f.name));
+  try{const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise,id='b'+rid_()+i,tn=await mkThumb(pdf),n=pdf.numPages;pdf.destroy();
+   await fput(id,new Blob([f],{type:'application/pdf'}));await fput('t'+id,tn);
+   bks.splice(ins++,0,{id,title:stripExt(f.name),pages:n,page:1,y:0,zoom:1,off:true,url:'',size:f.size});SV('bks',bks);ok++;renderB()}
+  catch(e){toast('تعذر إضافة «'+f.name+'» (ملف تالف أو المساحة؟)')}}
+ toast('تمت إضافة '+ok+' من '+fs.length+' كتاب')}
+$('#bfb').onclick=()=>$('#bfm').click();$('#bfd').onclick=()=>$('#bfo').click();
+[$('#bfm'),$('#bfo')].forEach(inp=>inp.onchange=async()=>{const fs=[...inp.files];inp.value='';$('#bd').close();if(fs.length)await importBooks(fs)});
+const regen=new Set();
+async function regenThumb(id,img){if(regen.has(id))return;regen.add(id);try{await loadPdfjs();const f=await fget(id);if(!f)return;const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise,tn=await mkThumb(pdf);pdf.destroy();await fput('t'+id,tn);if(img)img.src=tn}catch(e){}}
 render();pp();setTab(tab);restoreLast();
 </script></body></html>
