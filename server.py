@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-مساري - خادم الصوت المحلي
-يجلب مسار الصوت من يوتيوب عبر yt-dlp ويقدّمه لتطبيق مساري بنفس شكل واجهة Piped،
+مسار - خادم الصوت المحلي
+يجلب مسار الصوت من يوتيوب عبر yt-dlp ويقدّمه لتطبيق مسار بنفس شكل واجهة Piped،
 فيعمل وضع الصوت (التشغيل في الخلفية مع إغلاق الشاشة) دون الاعتماد على خوادم عامة.
 
 التشغيل:   python server.py [المنفذ]        (الافتراضي 8787)
@@ -263,7 +263,7 @@ class H(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     srv = ThreadingHTTPServer(("127.0.0.1", PORT), H)
     srv.daemon_threads = True
-    print("Masari audio server is running on  http://localhost:%d   (Ctrl+C to stop)" % PORT)
+    print("Masar audio server is running on  http://localhost:%d   (Ctrl+C to stop)" % PORT)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

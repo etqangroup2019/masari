@@ -27,7 +27,7 @@ if errorlevel 1 (
   echo [optional] To listen from your phone through this PC, install cloudflared:  winget install Cloudflare.cloudflared
 ) else (
   echo Starting a public HTTPS tunnel in a new window - copy the https://....trycloudflare.com address from it into the app settings.
-  start "Masari tunnel" cmd /k cloudflared tunnel --url http://localhost:%PORT%
+  start "Masar tunnel" cmd /k cloudflared tunnel --url http://localhost:%PORT%
 )
 echo.
 echo Starting the audio server. Keep this window open while you listen.

@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>مساري</title>
+<title>مسار</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -227,7 +227,7 @@ textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);b
 <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="18.5" r="1.7" fill="currentColor" stroke="none"/></symbol>
 <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/></symbol>
 </defs></svg>
-<header><h1><svg class="i logo"><use href="#i-logo"/></svg>مساري</h1><button class="ib" id="aw" aria-label="إبقاء الشاشة مضاءة"><svg class="i"><use href="#i-bulb"/></svg></button><button class="ib" id="tm" aria-label="الوضع"></button><button class="ib acc" id="add" aria-label="إضافة"><svg class="i"><use href="#i-plus"/></svg></button><nav><button data-t="v"><svg class="i"><use href="#i-video"/></svg>الفيديو</button><button data-t="b"><svg class="i"><use href="#i-book"/></svg>الكتب</button></nav></header>
+<header><h1><svg class="i logo"><use href="#i-logo"/></svg>مسار</h1><button class="ib" id="aw" aria-label="إبقاء الشاشة مضاءة"><svg class="i"><use href="#i-bulb"/></svg></button><button class="ib" id="tm" aria-label="الوضع"></button><button class="ib acc" id="add" aria-label="إضافة"><svg class="i"><use href="#i-plus"/></svg></button><nav><button data-t="v"><svg class="i"><use href="#i-video"/></svg>الفيديو</button><button data-t="b"><svg class="i"><use href="#i-book"/></svg>الكتب</button></nav></header>
 <div id="sbw"><div class="tbar"><div id="sb"><svg class="i"><use href="#i-search"/></svg><input id="q" type="search" placeholder="ابحث بالاسم…" autocomplete="off" enterkeyhint="search"><button id="qc" hidden aria-label="مسح"><svg class="i"><use href="#i-close"/></svg></button></div><button class="ib" id="qf" aria-label="المفضلة فقط"><svg class="i"><use href="#i-star"/></svg></button><button class="ib" id="vw" aria-label="طريقة العرض"><svg class="i"><use href="#i-bars"/></svg></button></div></div>
 <div id="tv"><div id="empty">لا يوجد شيء بعد.<br>اضغط ＋ وألصق رابط فيديو أو قائمة تشغيل من يوتيوب لتبدأ مسارك.</div>
 <div class="nr" id="nr" hidden></div><main id="grid"></main></div><div id="tb" hidden><div id="bempty" style="text-align:center;color:var(--mut);padding:70px 24px;line-height:2">لا توجد كتب بعد.<br>اضغط ＋ لإضافة ملف PDF أو رابط كتاب.</div><div id="bfh" hidden><button class="ib" id="bfback" aria-label="رجوع"><svg class="i"><use href="#i-chr"/></svg></button><b id="bft"></b><span class="sub" id="bfc"></span></div>
@@ -361,7 +361,7 @@ $('#b10').onclick=()=>player.seekTo(Math.max(0,player.getCurrentTime()-10),true)
 $('#rate').onclick=()=>{ri=(ri+1)%rates.length;SV('ri',ri);player.setPlaybackRate(rates[ri]);$('#rate').textContent=rates[ri]+'×'};$('#rate').textContent=rates[ri]+'×';
 $('#cl').onclick=()=>{$('#pv').classList.add('off');SV('last',{k:'lib'});ui()};$('#mini').onclick=()=>{$('#pv').classList.remove('off');if(cur)SV('last',{k:'pl',id:cur.id});ui()};
 // ---- media session + background
-function setMS(){if(!('mediaSession' in navigator)||!cur)return;try{navigator.mediaSession.metadata=new MediaMetadata({title:cur.vt||cur.title,artist:cur.title,album:'مساري',artwork:[{src:thumbOf(cur),sizes:'320x180',type:'image/jpeg'}]});navigator.mediaSession.playbackState=playing?'playing':'paused'}catch(e){}}
+function setMS(){if(!('mediaSession' in navigator)||!cur)return;try{navigator.mediaSession.metadata=new MediaMetadata({title:cur.vt||cur.title,artist:cur.title,album:'مسار',artwork:[{src:thumbOf(cur),sizes:'320x180',type:'image/jpeg'}]});navigator.mediaSession.playbackState=playing?'playing':'paused'}catch(e){}}
 if('mediaSession' in navigator){const h=(a,f)=>{try{navigator.mediaSession.setActionHandler(a,f)}catch(e){}};
  h('play',()=>{if(cur&&cur.cold)coldPlay();else if(cur&&cur.hold)goHold();else{want=true;player.playVideo()}});h('pause',()=>{want=false;player.pauseVideo()});h('previoustrack',()=>$('#prev').click());h('nexttrack',()=>$('#next').click());
  h('seekbackward',()=>player.seekTo(player.getCurrentTime()-10,true));h('seekforward',()=>player.seekTo(player.getCurrentTime()+10,true))}

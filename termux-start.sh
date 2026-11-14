@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
-# Masari audio server for Termux (Android). One command to install, update and run.
+# Masar audio server for Termux (Android). One command to install, update and run.
 #   first time:  curl -L https://raw.githubusercontent.com/etqangroup2019/masari/main/termux-start.sh | bash
 #   next times:  ~/masari/start.sh
 set -e

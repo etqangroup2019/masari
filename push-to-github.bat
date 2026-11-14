@@ -7,7 +7,7 @@ set "FIRST=0"
 
 echo.
 echo ========================================
-echo  MASARI - GITHUB SYNC
+echo  MASAR - GITHUB SYNC
 echo ========================================
 echo.
 
@@ -128,7 +128,7 @@ git diff --cached --quiet
 if errorlevel 1 (
   set "MSG="
   set /p "MSG=Commit message (Enter for default): "
-  if not defined MSG set "MSG=Update Masari"
+  if not defined MSG set "MSG=Update Masar"
   set "MSG=!MSG:"=!"
   git commit -m "!MSG!"
   if errorlevel 1 goto :fail
